@@ -1,1 +1,35 @@
-[]
+[
+  {
+    "url": "https://hotmart.com/pt-br/marketplace/produtos/o-mapa-do-arquiteto-a-jornada-completa-do-programador-ao-arquiteto-de-software/R100244660B",
+    "title": "O mapa do arquiteto",
+    "description": "teste",
+    "category": "Estudo",
+    "tags": [
+      "estudo"
+    ],
+    "id": "05c2cb2c-7364-4753-825b-c352687ec055",
+    "createdAt": "2026-01-14T13:13:04.133Z"
+  },
+  {
+    "url": "https://google.com",
+    "title": "google",
+    "description": "google",
+    "category": "Ferramentas",
+    "tags": [
+      "sda"
+    ],
+    "id": "dcfd7e8c-915c-4cf6-b996-abe6b46f5675",
+    "createdAt": "2026-01-13T18:26:36.867Z"
+  },
+  {
+    "url": "https://consultas.orbedobrasil.com.br/agrupador",
+    "title": "teste",
+    "description": "teteete",
+    "category": "Ferramentas",
+    "tags": [
+      "teste"
+    ],
+    "id": "5de767fd-772e-4e3b-91b6-c783d3b0c311",
+    "createdAt": "2026-01-13T18:19:18.228Z"
+  }
+]

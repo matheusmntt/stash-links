@@ -1,6 +1,7 @@
 "use client"
 
-import { useState, useEffect, useMemo } from "react"
+import { useState, useMemo } from "react"
+import useSWR from "swr"
 import { Inbox } from "lucide-react"
 import type { Link } from "@/lib/types"
 import { getLinks, getAllTags } from "@/lib/actions"
@@ -8,28 +9,36 @@ import { AddLinkForm } from "./add-link-form"
 import { LinkCard } from "./link-card"
 import { FilterBar } from "./filter-bar"
 
-export function LinksList() {
-  const [links, setLinks] = useState<Link[]>([])
-  const [isLoading, setIsLoading] = useState(true)
+interface LinksListProps {
+  initialLinks: Link[]
+  initialTags: string[]
+}
+
+const linksFetcher = () => getLinks()
+const tagsFetcher = () => getAllTags()
+
+export function LinksList({ initialLinks, initialTags }: LinksListProps) {
   const [search, setSearch] = useState("")
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null)
-  const [allTags, setAllTags] = useState<string[]>([])
   const [selectedTag, setSelectedTag] = useState<string | null>(null)
 
-  const fetchLinks = async () => {
-    setIsLoading(true)
-    try {
-      const [data, tags] = await Promise.all([getLinks(), getAllTags()])
-      setLinks(data)
-      setAllTags(tags)
-    } finally {
-      setIsLoading(false)
-    }
-  }
+  const {
+    data: links = [],
+    isLoading,
+    mutate: mutateLinks,
+  } = useSWR<Link[]>("links", linksFetcher, {
+    fallbackData: initialLinks,
+    revalidateOnFocus: false,
+  })
 
-  useEffect(() => {
-    fetchLinks()
-  }, [])
+  const { data: allTags = [], mutate: mutateTags } = useSWR<string[]>("tags", tagsFetcher, {
+    fallbackData: initialTags,
+    revalidateOnFocus: false,
+  })
+
+  const handleDataChange = async () => {
+    await Promise.all([mutateLinks(), mutateTags()])
+  }
 
   const filteredLinks = useMemo(() => {
     return links.filter((link) => {
@@ -54,7 +63,7 @@ export function LinksList() {
 
   return (
     <div className="space-y-8">
-      <AddLinkForm onLinkAdded={fetchLinks} />
+      <AddLinkForm onLinkAdded={handleDataChange} />
 
       {links.length > 0 && (
         <FilterBar
@@ -68,7 +77,7 @@ export function LinksList() {
         />
       )}
 
-      {isLoading ? (
+      {isLoading && !initialLinks.length ? (
         <div className="flex items-center justify-center py-16">
           <div className="w-6 h-6 border-2 border-primary border-t-transparent rounded-full animate-spin" />
         </div>
@@ -91,7 +100,7 @@ export function LinksList() {
           </p>
           <div className="grid gap-4">
             {filteredLinks.map((link) => (
-              <LinkCard key={link.id} link={link} onDeleted={fetchLinks} onTagClick={handleTagClick} />
+              <LinkCard key={link.id} link={link} onDeleted={handleDataChange} onTagClick={handleTagClick} />
             ))}
           </div>
         </div>

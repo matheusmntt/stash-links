@@ -1,7 +1,6 @@
 "use server"
 
 import { cookies } from "next/headers"
-import bcrypt from "bcryptjs"
 
 const SESSION_DURATION = 5 * 60 * 1000 // 5 minutos em milissegundos
 

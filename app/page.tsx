@@ -1,6 +1,9 @@
 import { LinksList } from "@/components/links-list"
+import { getLinks, getAllTags } from "@/lib/actions"
 
-export default function Home() {
+export default async function Home() {
+  const [initialLinks, initialTags] = await Promise.all([getLinks(), getAllTags()])
+
   return (
     <main className="min-h-screen">
       <div className="flex min-h-screen">
@@ -25,7 +28,7 @@ export default function Home() {
               <p className="text-primary font-medium text-sm">Link Manager</p>
             </header>
 
-            <LinksList />
+            <LinksList initialLinks={initialLinks} initialTags={initialTags} />
           </div>
         </div>
       </div>

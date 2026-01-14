@@ -11,7 +11,6 @@ const _jetbrainsMono = JetBrains_Mono({ subsets: ["latin"] })
 export const metadata: Metadata = {
   title: "Stash - Seus Links Organizados",
   description: "Salve e organize seus links favoritos de forma simples e elegante",
-  generator: "v0.app",
   icons: {
     icon: [
       {
