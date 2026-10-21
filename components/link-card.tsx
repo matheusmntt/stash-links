@@ -70,7 +70,7 @@ export function LinkCard({
             >
               {link.title}
             </a>
-            <ExternalLink className="inline-block ml-1.5 -mt-0.5 size-3.5 opacity-0 group-hover:opacity-100 transition-opacity" />
+            <ExternalLink className="hidden md:inline-block ml-1.5 -mt-0.5 size-3.5 opacity-0 group-hover:opacity-100 transition-opacity" />
           </h3>
         </div>
 
