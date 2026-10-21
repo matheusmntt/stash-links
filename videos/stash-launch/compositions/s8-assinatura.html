@@ -1,0 +1,100 @@
+<template>
+  <style>
+    #root {
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+      font-family: Inter, sans-serif;
+      color: #0b1120;
+    }
+    #s8-ground {
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(70% 70% at 50% 20%, rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0) 70%), #f4f2ee;
+    }
+    /* Mesmo lockup da cena 2: centro do ícone em (717, 470) */
+    #s8-icon {
+      position: absolute;
+      left: 627px;
+      top: 380px;
+      width: 180px;
+      height: 180px;
+    }
+    #s8-socket {
+      position: absolute;
+      inset: 0;
+      border-radius: 39px;
+      background: #ebe8e2;
+    }
+    #s8-fill {
+      position: absolute;
+      inset: 0;
+    }
+    #s8-fill img {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+    #s8-name {
+      position: absolute;
+      left: 843px;
+      top: 386px;
+      font-size: 150px;
+      font-weight: 800;
+      letter-spacing: -0.05em;
+      line-height: 1.12;
+    }
+    #s8-line {
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 640px;
+      text-align: center;
+      font-size: 56px;
+      font-weight: 600;
+      letter-spacing: -0.03em;
+      color: #5b6170;
+    }
+    #s8-line span {
+      display: inline-block;
+      opacity: 0;
+    }
+    #s8-platforms {
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 734px;
+      text-align: center;
+      font-size: 32px;
+      font-weight: 500;
+      letter-spacing: -0.01em;
+      color: #5b6170;
+      opacity: 0;
+    }
+  </style>
+  <div data-hf-id="hf-48tx" id="root" data-composition-id="s8" data-width="1920" data-height="1080" data-composition-variables='[{"id":"platforms","type":"string","label":"Linha de plataformas","default":"App + extensão para Chrome, Edge e Brave"}]'>
+    <div data-hf-id="hf-sxvj" id="s8-ground" class="clip" data-start="0" data-duration="4"></div>
+    <div data-hf-id="hf-cw9y" id="s8-icon">
+      <div data-hf-id="hf-t6we" id="s8-socket"></div>
+      <div data-hf-id="hf-c1ha" id="s8-fill"><img data-hf-id="hf-zim1" src="assets/ui/stash-icon.svg" alt="Stash" /></div>
+    </div>
+    <div data-hf-id="hf-ugc1" id="s8-name">Stash</div>
+    <div data-hf-id="hf-rx1f" id="s8-line"><span data-hf-id="hf-t6pv">Tudo</span> <span data-hf-id="hf-txoq">o</span> <span data-hf-id="hf-d45q">que</span> <span data-hf-id="hf-e15b">vale</span> <span data-hf-id="hf-4crp">guardar.</span></div>
+    <div data-hf-id="hf-ch7p" id="s8-platforms" data-var-text="platforms">App + extensão para Chrome, Edge e Brave</div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    // 26.05 (forte, subida da faixa): o ícone pousa e um preenchimento sobe por dentro dele
+    // Continua o carry across: o popup encolhido vira o "encaixe" do ícone, já visível no corte
+    tl.fromTo("#s8-icon", { scale: 0.7, filter: "blur(6px)" }, { scale: 1, filter: "blur(0px)", duration: 0.5, ease: "back.out(1.4)" }, 0.0);
+    tl.fromTo("#s8-fill", { clipPath: "inset(100% 0% 0% 0%)" }, { clipPath: "inset(0% 0% 0% 0%)", duration: 0.35, ease: "power3.out" }, 0.12);
+    tl.to("#s8-socket", { opacity: 0, duration: 0.1, ease: "none" }, 0.47);
+    // 26.45: o nome entra num wipe da esquerda para a direita
+    tl.fromTo("#s8-name", { clipPath: "inset(0% 100% 0% 0%)" }, { clipPath: "inset(0% 0% 0% 0%)", duration: 0.4, ease: "power3.out" }, 0.4);
+    // 27.05: frase final, por palavra
+    tl.fromTo("#s8-line span", { opacity: 0, filter: "blur(8px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.15, ease: "power4.out", stagger: 0.07 }, 1.0);
+    // 27.56: plataformas; tudo segura parado até 30.0
+    tl.fromTo("#s8-platforms", { opacity: 0, filter: "blur(6px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.18, ease: "power4.out" }, 1.51);
+    window.__timelines["s8"] = tl;
+  </script>
+</template>

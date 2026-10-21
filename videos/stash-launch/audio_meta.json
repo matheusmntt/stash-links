@@ -1,0 +1,11 @@
+{
+  "bgm": {
+    "path": "assets/bgm/track.mp3",
+    "volume": 0.9,
+    "query": "confident minimal electronic keynote launch, clean pulse, modern tech, uplifting, ~120 BPM",
+    "duration_s": 30
+  },
+  "bgm_pending": false,
+  "voices": [],
+  "sfx": []
+}

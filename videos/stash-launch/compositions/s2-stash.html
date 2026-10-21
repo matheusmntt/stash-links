@@ -1,0 +1,88 @@
+<template>
+  <style>
+    #root {
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+      font-family: Inter, sans-serif;
+      color: #0b1120;
+    }
+    #s2-ground {
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(70% 70% at 50% 20%, rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0) 70%), #f4f2ee;
+    }
+    /* Lockup: ícone 180px + 36px + "Stash" 150px → centro do ícone em (717, 470) */
+    #s2-icon {
+      position: absolute;
+      left: 627px;
+      top: 380px;
+      width: 180px;
+      height: 180px;
+    }
+    #s2-icon img {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+    #s2-name {
+      position: absolute;
+      left: 843px;
+      top: 386px;
+      font-size: 150px;
+      font-weight: 800;
+      letter-spacing: -0.05em;
+      line-height: 1.12;
+    }
+    #s2-name span {
+      display: inline-block;
+      opacity: 0;
+    }
+    #s2-tagline {
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 640px;
+      text-align: center;
+      font-size: 64px;
+      font-weight: 600;
+      letter-spacing: -0.03em;
+      color: #0b1120;
+    }
+    #s2-tagline span {
+      display: inline-block;
+      opacity: 0;
+    }
+    #s2-tagline .accent {
+      color: #0f9e8f;
+    }
+  </style>
+  <div data-hf-id="hf-u16y" id="root" data-composition-id="s2" data-width="1920" data-height="1080">
+    <div data-hf-id="hf-71l1" id="s2-ground" class="clip" data-start="0" data-duration="4"></div>
+    <div data-hf-id="hf-pvnk" id="s2-icon"><img data-hf-id="hf-zim1" src="assets/ui/stash-icon.svg" alt="Stash" /></div>
+    <div data-hf-id="hf-odpe" id="s2-name"><span data-hf-id="hf-fmnq">S</span><span data-hf-id="hf-r5jj">t</span><span data-hf-id="hf-zhz4">a</span><span data-hf-id="hf-scgm">s</span><span data-hf-id="hf-vx7v">h</span></div>
+    <div data-hf-id="hf-0dqj" id="s2-tagline"><span data-hf-id="hf-t6pv">Tudo</span> <span data-hf-id="hf-19xr">num</span> <span data-hf-id="hf-3czx" class="accent">só</span> <span data-hf-id="hf-3ih2">lugar.</span></div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    // 4.04 (forte, virada da seção A → B): o ícone nasce onde os cards convergiram
+    // Continua o carry across: no quadro do corte o ícone já está ali, do tamanho dos cards que chegaram
+    tl.fromTo("#s2-icon", { scale: 0.6, filter: "blur(6px)" }, { scale: 1, filter: "blur(0px)", duration: 0.65, ease: "back.out(1.4)" }, 0.0);
+    // 4.55: o nome, letra por letra (0.1 s), chegando no pico da faixa (4.80)
+    tl.fromTo(
+      "#s2-name span",
+      { opacity: 0, filter: "blur(6px)" },
+      { opacity: 1, filter: "blur(0px)", duration: 0.16, ease: "power4.out", stagger: 0.07 },
+      0.5,
+    );
+    // 6.04 (forte): o slogan, por palavra
+    tl.fromTo(
+      "#s2-tagline span",
+      { opacity: 0, filter: "blur(8px)" },
+      { opacity: 1, filter: "blur(0px)", duration: 0.15, ease: "power4.out", stagger: 0.07 },
+      1.98,
+    );
+    // Segura parado até o corte seco no forte de 8.03
+    window.__timelines["s2"] = tl;
+  </script>
+</template>

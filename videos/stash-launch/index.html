@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1920, height=1080" />
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        margin: 0;
+        width: 1920px;
+        height: 1080px;
+        overflow: hidden;
+        background: #f4f2ee;
+      }
+      #root {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        font-family: Inter, ui-sans-serif, system-ui, sans-serif;
+      }
+      #ground {
+        position: absolute;
+        inset: 0;
+        background: #f4f2ee;
+      }
+    </style>
+  </head>
+  <body>
+    <div data-hf-id="hf-j7pz" id="root" data-composition-id="main" data-start="0" data-duration="30" data-width="1920" data-height="1080">
+      <!-- Chão base de porcelana (as cenas pintam o próprio chão por cima) -->
+      <div data-hf-id="hf-5a84" id="ground" class="clip" data-start="0" data-duration="30" data-track-index="0"></div>
+
+      <div data-hf-id="hf-h6jw" id="s1" data-composition-id="s1" data-composition-src="compositions/s1-caos.html" data-start="0" data-duration="4" data-track-index="1" data-track-kind="graphics" data-width="1920" data-height="1080"></div>
+      <div data-hf-id="hf-3kss" id="s2" data-composition-id="s2" data-composition-src="compositions/s2-stash.html" data-start="4" data-duration="4" data-track-index="1" data-track-kind="graphics" data-width="1920" data-height="1080"></div>
+      <div data-hf-id="hf-imbd" id="s3" data-composition-id="s3" data-composition-src="compositions/s3-organize.html" data-start="8" data-duration="4" data-track-index="1" data-track-kind="graphics" data-width="1920" data-height="1080"></div>
+      <div data-hf-id="hf-byl2" id="s4" data-composition-id="s4" data-composition-src="compositions/s4-encontre.html" data-start="12" data-duration="4" data-track-index="1" data-track-kind="graphics" data-width="1920" data-height="1080"></div>
+      <div data-hf-id="hf-2vya" id="s5" data-composition-id="s5" data-composition-src="compositions/s5-salve.html" data-start="16" data-duration="4" data-track-index="1" data-track-kind="graphics" data-width="1920" data-height="1080"></div>
+      <div data-hf-id="hf-7elq" id="s6" data-composition-id="s6" data-composition-src="compositions/s6-one-more-thing.html" data-start="20" data-duration="2" data-track-index="1" data-track-kind="graphics" data-width="1920" data-height="1080"></div>
+      <div data-hf-id="hf-xo7b" id="s7" data-composition-id="s7" data-composition-src="compositions/s7-extensao.html" data-start="22" data-duration="4" data-track-index="1" data-track-kind="graphics" data-width="1920" data-height="1080"></div>
+      <div data-hf-id="hf-vyl0" id="s8" data-composition-id="s8" data-composition-src="compositions/s8-assinatura.html" data-start="26" data-duration="4" data-track-index="1" data-track-kind="graphics" data-width="1920" data-height="1080"></div>
+
+      <audio data-hf-id="hf-k4tm" id="bgm" class="clip" src="assets/bgm/track.mp3" data-start="0" data-duration="30" data-track-index="10" data-volume="0.8" data-fade-in="0.4" data-fade-out="1.5"></audio>
+
+      <!-- Efeitos: o pico de cada arquivo cai um quadro depois da imagem (picos medidos com `hyperframes audio`) -->
+      <!-- whoosh: pico em 0.162 s → whip da cena 3 para a 4 (mais rápido em ~11.90 s) -->
+      <audio id="sfx-whoosh" class="clip" src="assets/sfx/whoosh.mp3" data-start="11.77" data-duration="0.575" data-track-index="11" data-volume="1"></audio>
+      <!-- teclas: pico em 0.454 s → primeira letra de "documentacao" em 13.10 s -->
+      <audio id="sfx-keys" class="clip" src="assets/sfx/keys.mp3" data-start="12.68" data-duration="1.25" data-track-index="12" data-volume="1" data-fade-out="0.15"></audio>
+      <!-- pop: pico em 0.073 s → "Salvo no Stash" ✓ no tempo forte de 24.03 s -->
+      <audio id="sfx-pop" class="clip" src="assets/sfx/pop.mp3" data-start="23.99" data-duration="0.366" data-track-index="13" data-volume="1.5"></audio>
+    </div>
+    <script>
+      window.__timelines = window.__timelines || {};
+      window.__timelines["main"] = gsap.timeline({ paused: true });
+    </script>
+  </body>
+</html>

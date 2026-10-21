@@ -1,0 +1,135 @@
+<template>
+  <style>
+    #root {
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+      font-family: Inter, sans-serif;
+      color: #0b1120;
+    }
+    #s7-ground {
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(70% 70% at 50% 20%, rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0) 70%), #f4f2ee;
+    }
+    .s7-plate {
+      position: absolute;
+      left: 760px;
+      width: 1240px;
+      border-radius: 36px;
+      opacity: 0;
+    }
+    #s7-title {
+      position: absolute;
+      left: 140px;
+      top: 330px;
+      font-size: 96px;
+      font-weight: 800;
+      letter-spacing: -0.045em;
+      line-height: 1;
+    }
+    #s7-title span {
+      display: inline-block;
+      opacity: 0;
+    }
+    .s7-line {
+      position: absolute;
+      left: 140px;
+      top: 470px;
+      font-size: 56px;
+      font-weight: 600;
+      letter-spacing: -0.03em;
+      line-height: 1.15;
+      white-space: nowrap;
+    }
+    .s7-line span {
+      display: inline-block;
+      opacity: 0;
+    }
+    .s7-line .accent {
+      color: #0f9e8f;
+    }
+    /* Popup real (390 x 600 CSS) a 1.55x dentro de um cartão de vidro */
+    #s7-popup {
+      position: absolute;
+      left: 1100px;
+      top: 121px;
+      padding: 16px;
+      border-radius: 28px;
+      background: rgba(255, 255, 255, 0.55);
+      backdrop-filter: blur(24px) saturate(140%);
+      border: 1px solid rgba(255, 255, 255, 0.7);
+      box-shadow: inset 0 0 0 1px rgba(11, 17, 32, 0.06), 0 30px 60px -20px rgba(11, 17, 32, 0.18);
+      opacity: 0;
+    }
+    /* Corta a sobra vazia da captura: 520 px CSS de conteúdo × 1.55 */
+    .s7-screen {
+      position: relative;
+      width: 605px;
+      height: 806px;
+      border-radius: 18px;
+      overflow: hidden;
+      background: #f9fafb;
+    }
+    .s7-screen img {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 605px;
+      height: 930px;
+    }
+    #s7-saved,
+    #s7-search {
+      opacity: 0;
+    }
+  </style>
+  <div data-hf-id="hf-6yl5" id="root" data-composition-id="s7" data-width="1920" data-height="1080">
+    <div data-hf-id="hf-9bc2" id="s7-ground" class="clip" data-start="0" data-duration="4"></div>
+
+    <div data-hf-id="hf-h4t0" class="s7-plate" data-layout-allow-overflow id="s7-plate-a" style="top: 250px; height: 220px; background: #ebe8e2"></div>
+    <div data-hf-id="hf-135e" class="s7-plate" data-layout-allow-overflow id="s7-plate-b" style="top: 600px; height: 240px; background: rgba(15, 158, 143, 0.07)"></div>
+
+    <div data-hf-id="hf-wuli" id="s7-title"><span data-hf-id="hf-ms68">A</span> <span data-hf-id="hf-au0s">extensão.</span></div>
+    <div data-hf-id="hf-duq7" class="s7-line" id="s7-l1"><span data-hf-id="hf-pf5i">Salve</span> <span data-hf-id="hf-1zf2">de</span> <span data-hf-id="hf-2f3p" class="accent">qualquer</span> <span data-hf-id="hf-y91t">aba.</span></div>
+    <div data-hf-id="hf-2z8k" class="s7-line" id="s7-l2"><span data-hf-id="hf-7062">Busque</span> <span data-hf-id="hf-omzw">sem</span> <span data-hf-id="hf-kfaq">sair</span> <span data-hf-id="hf-hqxd">dela.</span></div>
+
+    <div data-hf-id="hf-gh9e" id="s7-popup">
+      <div data-hf-id="hf-l8dv" class="s7-screen" data-layout-allow-overflow>
+        <img data-hf-id="hf-trz1" id="s7-save" src="assets/ui/ext-popup-save.png" alt="Popup: salvar" />
+        <img data-hf-id="hf-43bh" id="s7-saved" src="assets/ui/ext-popup-saved.png" alt="Popup: salvo" />
+        <img data-hf-id="hf-w3d8" id="s7-search" src="assets/ui/ext-popup-search.png" alt="Popup: buscar" />
+      </div>
+    </div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+
+    // 22.04 (forte): "A extensão."
+    tl.fromTo("#s7-title span", { opacity: 0, filter: "blur(8px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.15, ease: "power4.out", stagger: 0.07 }, 0.02);
+
+    // 22.30: o popup real sobe como cartão de vidro sobre os pratos
+    tl.fromTo(".s7-plate", { opacity: 0, x: 160 }, { opacity: 1, x: 0, duration: 0.6, ease: "expo.out", stagger: 0.06 }, 0.2);
+    tl.fromTo("#s7-popup", { opacity: 0, y: 80, filter: "blur(6px)" }, { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.6, ease: "expo.out" }, 0.26);
+
+    // 22.55: "Salve de qualquer aba."
+    tl.fromTo("#s7-l1 span", { opacity: 0, filter: "blur(8px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.15, ease: "power4.out", stagger: 0.07 }, 0.51);
+
+    // 24.03 (forte): "Salvo no Stash" ✓ (blur swap + leve mola no cartão)
+    tl.to("#s7-save", { opacity: 0, filter: "blur(8px)", duration: 0.13, ease: "power2.in" }, 1.95);
+    tl.fromTo("#s7-saved", { opacity: 0, filter: "blur(8px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.13, ease: "power2.out" }, 1.99);
+    tl.fromTo("#s7-popup", { scale: 0.97 }, { scale: 1, duration: 0.45, ease: "back.out(1.4)" }, 1.99);
+
+    // 24.56: aba Buscar; a linha troca no mesmo lugar
+    tl.to("#s7-saved", { opacity: 0, filter: "blur(8px)", duration: 0.13, ease: "power2.in" }, 2.48);
+    tl.fromTo("#s7-search", { opacity: 0, filter: "blur(8px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.13, ease: "power2.out" }, 2.52);
+    tl.to("#s7-l1 span", { opacity: 0, filter: "blur(8px)", duration: 0.13, ease: "power3.in", stagger: 0.03 }, 2.42);
+    tl.fromTo("#s7-l2 span", { opacity: 0, filter: "blur(8px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.15, ease: "power4.out", stagger: 0.07 }, 2.56);
+
+    // Saída: o popup encolhe até onde nasce o ícone da assinatura (centro 717, 470)
+    tl.to(["#s7-title span", "#s7-l2 span"], { opacity: 0, filter: "blur(8px)", duration: 0.18, ease: "power3.in", stagger: 0.02 }, 3.58);
+    tl.to(".s7-plate", { opacity: 0, x: -80, duration: 0.3, ease: "power3.in" }, 3.62);
+    tl.to("#s7-popup", { x: 717 - 1418.5, y: 470 - 540, scale: 0.2, opacity: 0.55, filter: "blur(6px)", duration: 0.45, ease: "power3.in" }, 3.55);
+
+    window.__timelines["s7"] = tl;
+  </script>
+</template>

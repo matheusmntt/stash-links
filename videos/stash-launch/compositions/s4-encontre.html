@@ -1,0 +1,189 @@
+<template>
+  <style>
+    #root {
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+      font-family: Inter, sans-serif;
+      color: #0b1120;
+    }
+    #s4-ground {
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(70% 70% at 50% 20%, rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0) 70%), #f4f2ee;
+    }
+    #s4-divider {
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 400px;
+      text-align: center;
+      font-size: 280px;
+      font-weight: 800;
+      letter-spacing: -0.05em;
+      line-height: 0.95;
+      opacity: 0;
+    }
+    #s4-stage {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+    }
+    #s4-cam {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 1920px;
+      height: 1080px;
+      transform-origin: 0 0;
+    }
+    #s4-window {
+      position: absolute;
+      left: 160px;
+      top: 70px;
+      width: 1600px;
+      height: 940px;
+      border-radius: 20px;
+      overflow: hidden;
+      background: #ffffff;
+      box-shadow: 0 40px 80px -30px rgba(11, 17, 32, 0.25), 0 0 0 1px rgba(11, 17, 32, 0.06);
+    }
+    .s4-bar {
+      height: 40px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding-left: 18px;
+      border-bottom: 1px solid #eceae5;
+    }
+    .s4-bar i {
+      width: 11px;
+      height: 11px;
+      border-radius: 50%;
+      background: #e4e2dd;
+    }
+    .s4-viewport {
+      position: relative;
+      width: 1600px;
+      height: 900px;
+      overflow: hidden;
+    }
+    .s4-shot {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 1600px;
+      height: 900px;
+    }
+    /* Camada de digitação sobre o input real (px do viewport = CSS do app × 0.8333) */
+    #s4-after {
+      opacity: 0;
+    }
+    #s4-cover {
+      position: absolute;
+      left: 634px;
+      top: 17px;
+      width: 120px;
+      height: 19px;
+      background: #ffffff;
+    }
+    #s4-typed {
+      position: absolute;
+      left: 636.7px;
+      top: 18px;
+      font-size: 11.67px;
+      line-height: 17px;
+      font-weight: 400;
+      color: #1d2330;
+      white-space: nowrap;
+    }
+    #s4-typed span {
+      opacity: 0;
+    }
+    #s4-caption {
+      position: absolute;
+      left: 80px;
+      top: 380px;
+      padding: 34px 44px;
+      border-radius: 24px;
+      background: rgba(255, 255, 255, 0.55);
+      backdrop-filter: blur(24px) saturate(140%);
+      border: 1px solid rgba(255, 255, 255, 0.7);
+      box-shadow: inset 0 0 0 1px rgba(11, 17, 32, 0.06), 0 30px 60px -20px rgba(11, 17, 32, 0.18);
+      font-size: 60px;
+      font-weight: 700;
+      letter-spacing: -0.035em;
+      line-height: 1.1;
+      opacity: 0;
+    }
+    #s4-caption span {
+      display: inline-block;
+      opacity: 0;
+    }
+    #s4-caption .accent {
+      color: #0f9e8f;
+    }
+  </style>
+  <div data-hf-id="hf-2tvg" id="root" data-composition-id="s4" data-width="1920" data-height="1080">
+    <div data-hf-id="hf-fplf" id="s4-ground" class="clip" data-start="0" data-duration="4"></div>
+
+    <div data-hf-id="hf-gf5o" id="s4-divider">Encontre.</div>
+
+    <div data-hf-id="hf-sepl" id="s4-stage">
+      <div data-hf-id="hf-51hj" id="s4-cam" data-layout-allow-overflow>
+        <div data-hf-id="hf-cgd1" id="s4-window">
+          <div data-hf-id="hf-3lnh" class="s4-bar"><i data-hf-id="hf-wt6k"></i><i data-hf-id="hf-zeb8"></i><i data-hf-id="hf-y7e5"></i></div>
+          <div data-hf-id="hf-8b88" class="s4-viewport">
+            <img data-hf-id="hf-elab" class="s4-shot" id="s4-before" src="assets/ui/app-list-light.png" alt="" />
+            <img data-hf-id="hf-iqph" class="s4-shot" id="s4-after" src="assets/ui/app-search.png" alt="Busca" />
+            <div data-hf-id="hf-gvci" id="s4-cover"></div>
+            <div data-hf-id="hf-e29f" id="s4-typed"><span data-hf-id="hf-xifz">d</span><span data-hf-id="hf-txoq">o</span><span data-hf-id="hf-ypd2">c</span><span data-hf-id="hf-rjuk">u</span><span data-hf-id="hf-uqas">m</span><span data-hf-id="hf-xwr0">e</span><span data-hf-id="hf-tjdp">n</span><span data-hf-id="hf-r5jj">t</span><span data-hf-id="hf-zhz4">a</span><span data-hf-id="hf-3hbe">c</span><span data-hf-id="hf-wqew">a</span><span data-hf-id="hf-rzwu">o</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div data-hf-id="hf-l9j5" id="s4-caption" data-layout-allow-overlap><span data-hf-id="hf-ximu" class="l1">Em</span> <span data-hf-id="hf-zudc" class="l1 accent">segundos.</span><br data-hf-id="hf-x5px" /><span data-hf-id="hf-6pit" class="l2">Até</span> <span data-hf-id="hf-zsby" class="l2">sem</span> <span data-hf-id="hf-l1v1" class="l2">acento.</span></div>
+    </div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+
+    // Entra pelo whip: o divisor chega da direita, borrado, e assenta (12.03 forte)
+    tl.fromTo("#s4-divider", { opacity: 0.6, x: 320, filter: "blur(16px)" }, { opacity: 1, x: 0, filter: "blur(0px)", duration: 0.22, ease: "expo.out" }, 0.0);
+    tl.to("#s4-divider", { opacity: 0, filter: "blur(8px)", duration: 0.18, ease: "power3.in" }, 0.84);
+
+    // 13.04: punch-in na busca real a 2x (corte dentro da cena, chega levemente grande e assenta)
+    tl.set("#s4-stage", { opacity: 1 }, 1.02);
+    tl.fromTo("#s4-cam", { scale: 2.5, x: -1462, y: -40 }, { scale: 2.4, x: -1365.6, y: -28, duration: 0.5, ease: "expo.out" }, 1.02);
+
+    // Digitação: 12 letras, 0.06 s cada (13.10–13.82)
+    document.querySelectorAll("#s4-typed span").forEach((el, i) => tl.set(el, { opacity: 1 }, 1.1 + i * 0.06));
+
+    // 14.05 (forte): troca para a busca real (blur swap) e a câmera desce aos resultados (1.75x)
+    tl.to(["#s4-before", "#s4-cover", "#s4-typed"], { opacity: 0, duration: 0.13, ease: "power2.in" }, 2.0);
+    tl.fromTo("#s4-after", { opacity: 0, filter: "blur(8px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.13, ease: "power2.out" }, 2.0);
+    tl.to("#s4-cam", { scale: 2.1, x: -1090, y: -301, duration: 0.55, ease: "power2.inOut" }, 2.05);
+    tl.to("#s4-cam", { filter: "blur(8px)", duration: 0.275, ease: "power2.in" }, 2.05);
+    tl.to("#s4-cam", { filter: "blur(0px)", duration: 0.275, ease: "power2.out" }, 2.325);
+
+    // 14.56 / 15.07: legenda
+    tl.fromTo("#s4-caption", { opacity: 0, y: 24 }, { opacity: 1, y: 0, duration: 0.5, ease: "expo.out" }, 2.48);
+    tl.fromTo(
+      "#s4-caption .l1",
+      { opacity: 0, filter: "blur(8px)" },
+      { opacity: 1, filter: "blur(0px)", duration: 0.15, ease: "power4.out", stagger: 0.07 },
+      2.54,
+    );
+    tl.fromTo(
+      "#s4-caption .l2",
+      { opacity: 0, filter: "blur(8px)" },
+      { opacity: 1, filter: "blur(0px)", duration: 0.15, ease: "power4.out", stagger: 0.07 },
+      3.05,
+    );
+
+    // Saída: blur swap na mesma porcelana
+    tl.to("#s4-stage", { opacity: 0, filter: "blur(8px)", duration: 0.18, ease: "power3.in" }, 3.82);
+
+    window.__timelines["s4"] = tl;
+  </script>
+</template>

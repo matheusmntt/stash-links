@@ -1,0 +1,156 @@
+<template>
+  <style>
+    #root {
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+      font-family: Inter, sans-serif;
+      color: #0b1120;
+    }
+    #s3-ground {
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(70% 70% at 50% 20%, rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0) 70%), #f4f2ee;
+    }
+    #s3-divider {
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 400px;
+      text-align: center;
+      font-size: 280px;
+      font-weight: 800;
+      letter-spacing: -0.05em;
+      line-height: 0.95;
+      opacity: 0;
+    }
+    #s3-stage {
+      position: absolute;
+      inset: 0;
+    }
+    .s3-plate {
+      position: absolute;
+      left: -40px;
+      width: 2000px;
+      border-radius: 36px;
+    }
+    /* Câmera: só este wrapper é animado (origem no canto) */
+    #s3-cam {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 1920px;
+      height: 1080px;
+      transform-origin: 0 0;
+    }
+    #s3-window {
+      position: absolute;
+      left: 160px;
+      top: 70px;
+      width: 1600px;
+      height: 940px;
+      border-radius: 20px;
+      overflow: hidden;
+      background: #ffffff;
+      box-shadow: 0 40px 80px -30px rgba(11, 17, 32, 0.25), 0 0 0 1px rgba(11, 17, 32, 0.06);
+    }
+    .s3-bar {
+      height: 40px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding-left: 18px;
+      background: #ffffff;
+      border-bottom: 1px solid #eceae5;
+    }
+    .s3-bar i {
+      width: 11px;
+      height: 11px;
+      border-radius: 50%;
+      background: #e4e2dd;
+    }
+    .s3-viewport {
+      position: relative;
+      width: 1600px;
+      height: 900px;
+      overflow: hidden;
+    }
+    .s3-viewport img {
+      display: block;
+      width: 1600px;
+      height: 900px;
+    }
+    #s3-caption {
+      position: absolute;
+      left: 780px;
+      top: 430px;
+      padding: 34px 44px;
+      border-radius: 24px;
+      background: rgba(255, 255, 255, 0.55);
+      backdrop-filter: blur(24px) saturate(140%);
+      border: 1px solid rgba(255, 255, 255, 0.7);
+      box-shadow: inset 0 0 0 1px rgba(11, 17, 32, 0.06), 0 30px 60px -20px rgba(11, 17, 32, 0.18);
+      font-size: 64px;
+      font-weight: 700;
+      letter-spacing: -0.035em;
+      line-height: 1.05;
+      opacity: 0;
+    }
+    #s3-caption span {
+      display: inline-block;
+      opacity: 0;
+    }
+  </style>
+  <div data-hf-id="hf-3xc5" id="root" data-composition-id="s3" data-width="1920" data-height="1080">
+    <div data-hf-id="hf-wr4m" id="s3-ground" class="clip" data-start="0" data-duration="4"></div>
+
+    <div data-hf-id="hf-hjxk" id="s3-divider">Organize.</div>
+
+    <div data-hf-id="hf-4jte" id="s3-stage">
+      <div data-hf-id="hf-0ak2" class="s3-plate" data-layout-allow-overflow id="s3-plate-a" style="top: 180px; height: 200px; background: #ebe8e2"></div>
+      <div data-hf-id="hf-ma8x" class="s3-plate" data-layout-allow-overflow id="s3-plate-b" style="top: 470px; height: 220px; background: rgba(15, 158, 143, 0.07)"></div>
+      <div data-hf-id="hf-ks9e" class="s3-plate" data-layout-allow-overflow id="s3-plate-c" style="top: 780px; height: 200px; background: #ebe8e2"></div>
+
+      <div data-hf-id="hf-qiqo" id="s3-cam" data-layout-allow-overflow>
+        <div data-hf-id="hf-hhsk" id="s3-window">
+          <div data-hf-id="hf-0wjm" class="s3-bar"><i data-hf-id="hf-wt6k"></i><i data-hf-id="hf-zeb8"></i><i data-hf-id="hf-y7e5"></i></div>
+          <div data-hf-id="hf-4119" class="s3-viewport"><img data-hf-id="hf-k2tk" src="assets/ui/app-list-light.png" alt="Stash" /></div>
+        </div>
+      </div>
+
+      <div data-hf-id="hf-ntn6" id="s3-caption" data-layout-allow-overlap><span data-hf-id="hf-mugr">Categorias,</span> <span data-hf-id="hf-zglo">tags</span> <span data-hf-id="hf-xwr0">e</span><br data-hf-id="hf-x5px" /><span data-hf-id="hf-1wga">favoritos.</span></div>
+    </div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+
+    // 8.03 (forte): divisor
+    tl.fromTo("#s3-divider", { opacity: 0, filter: "blur(8px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.15, ease: "power4.out" }, 0.0);
+    tl.to("#s3-divider", { opacity: 0, filter: "blur(8px)", duration: 0.18, ease: "power3.in" }, 0.86);
+
+    // 9.04: a janela real sobe sobre os pratos
+    tl.fromTo("#s3-cam", { opacity: 0, y: 60, x: 0, scale: 1 }, { opacity: 1, y: 0, duration: 0.6, ease: "expo.out" }, 0.98);
+    tl.fromTo(".s3-plate", { opacity: 0, x: 160 }, { opacity: 1, x: 0, duration: 0.6, ease: "expo.out", stagger: 0.06 }, 0.94);
+
+    // 10.03 (forte): a câmera empurra para a barra lateral (1.875x do tamanho real), começa 0.1 s antes
+    // ponto alvo (CSS 128,300) → tela (440,540): scale 2.25, x -160, y -270
+    tl.to("#s3-cam", { scale: 2.25, x: -160, y: -270, duration: 0.55, ease: "power2.inOut" }, 1.9);
+    tl.to("#s3-cam", { filter: "blur(8px)", duration: 0.275, ease: "power2.in" }, 1.9);
+    tl.to("#s3-cam", { filter: "blur(0px)", duration: 0.275, ease: "power2.out" }, 2.175);
+    tl.to(".s3-plate", { opacity: 0, duration: 0.3, ease: "power2.inOut" }, 1.95);
+
+    // 10.54: legenda num cartão de vidro à direita da barra lateral
+    tl.fromTo("#s3-caption", { opacity: 0, y: 24 }, { opacity: 1, y: 0, duration: 0.5, ease: "expo.out" }, 2.46);
+    tl.fromTo(
+      "#s3-caption span",
+      { opacity: 0, filter: "blur(8px)" },
+      { opacity: 1, filter: "blur(0px)", duration: 0.15, ease: "power4.out", stagger: 0.07 },
+      2.52,
+    );
+
+    // Saída: whip para a esquerda (0.2 s, blur horizontal)
+    tl.to("#s3-stage", { x: -900, filter: "blur(18px)", opacity: 0, duration: 0.2, ease: "power3.in" }, 3.8);
+
+    window.__timelines["s3"] = tl;
+  </script>
+</template>
