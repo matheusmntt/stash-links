@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <title>Stash</title>
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="popup.css" />
+  </head>
+  <body>
+    <header class="header">
+      <div class="brand">
+        <img src="icons/icon-32.png" alt="" width="22" height="22" />
+        <span>Stash</span>
+      </div>
+      <div class="tabs" role="tablist">
+        <button role="tab" id="tab-save" aria-selected="true">Salvar</button>
+        <button role="tab" id="tab-search" aria-selected="false">Buscar</button>
+      </div>
+      <div class="header-actions">
+        <button class="icon-btn" id="open-app" title="Abrir o Stash"></button>
+        <button class="icon-btn" id="open-options" title="Configurações"></button>
+      </div>
+    </header>
+    <main id="view">
+      <div class="center"><div class="spinner"></div></div>
+    </main>
+    <script type="module" src="popup.js"></script>
+  </body>
+</html>
