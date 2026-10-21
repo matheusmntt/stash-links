@@ -1,67 +1,90 @@
 "use server"
 
-import { promises as fs } from "fs"
-import path from "path"
-import crypto from "crypto"
-import type { Link } from "./types"
+import { z } from "zod"
+import * as db from "./db"
+import { fetchPageMetadata } from "./metadata"
+import { linkSchema } from "./schemas"
+import { UnauthorizedError, requireUser } from "./session"
+import type { ActionResult, Link, LinkMetadata, User } from "./types"
 
-const DATA_FILE = path.join(process.cwd(), "data", "links.json")
-
-async function ensureDataFile() {
-  const dir = path.dirname(DATA_FILE)
+async function run<T>(fn: (user: User) => T | Promise<T>): Promise<ActionResult<T>> {
   try {
-    await fs.access(dir)
-  } catch {
-    await fs.mkdir(dir, { recursive: true })
+    const user = await requireUser()
+    return { ok: true, data: await fn(user) }
+  } catch (error) {
+    if (error instanceof UnauthorizedError) return { ok: false, error: "UNAUTHORIZED" }
+    if (error instanceof z.ZodError) return { ok: false, error: error.errors[0]?.message ?? "Dados inválidos" }
+    if (error instanceof Error && error.message) return { ok: false, error: error.message }
+    console.error(error)
+    return { ok: false, error: "Erro inesperado" }
   }
-  try {
-    await fs.access(DATA_FILE)
-  } catch {
-    await fs.writeFile(DATA_FILE, JSON.stringify([]))
-  }
 }
 
-export async function getLinks(): Promise<Link[]> {
-  await ensureDataFile()
-  const data = await fs.readFile(DATA_FILE, "utf-8")
-  return JSON.parse(data)
+export async function getLinks(): Promise<ActionResult<Link[]>> {
+  return run((user) => db.listLinks(user.id))
 }
 
-export async function addLink(link: Omit<Link, "id" | "createdAt">): Promise<Link> {
-  await ensureDataFile()
-  const links = await getLinks()
-  const newLink: Link = {
-    ...link,
-    id: crypto.randomUUID(),
-    createdAt: new Date().toISOString(),
-  }
-  links.unshift(newLink)
-  await fs.writeFile(DATA_FILE, JSON.stringify(links, null, 2))
-  return newLink
-}
-
-export async function deleteLink(id: string): Promise<void> {
-  await ensureDataFile()
-  const links = await getLinks()
-  const filtered = links.filter((link) => link.id !== id)
-  await fs.writeFile(DATA_FILE, JSON.stringify(filtered, null, 2))
-}
-
-export async function updateLink(id: string, data: Partial<Omit<Link, "id" | "createdAt">>): Promise<Link | null> {
-  await ensureDataFile()
-  const links = await getLinks()
-  const index = links.findIndex((link) => link.id === id)
-  if (index === -1) return null
-  links[index] = { ...links[index], ...data }
-  await fs.writeFile(DATA_FILE, JSON.stringify(links, null, 2))
-  return links[index]
-}
-
-export async function getAllTags(): Promise<string[]> {
-  const links = await getLinks()
-  const tagsSet = new Set<string>()
-  links.forEach((link) => {
-    link.tags?.forEach((tag) => tagsSet.add(tag))
+export async function addLink(input: unknown): Promise<ActionResult<Link>> {
+  return run((user) => {
+    const data = linkSchema.parse(input)
+    const existing = db.findByUrl(user.id, data.url)
+    if (existing) throw new Error(`Esse link já está salvo como "${existing.title}"`)
+    return db.createLink(user.id, { ...data, description: data.description || undefined })
   })
-  return Array.from(tagsSet).sort()
+}
+
+export async function updateLink(id: string, input: unknown): Promise<ActionResult<Link>> {
+  return run((user) => {
+    const data = linkSchema.parse(input)
+    const existing = db.findByUrl(user.id, data.url, id)
+    if (existing) throw new Error(`Esse link já está salvo como "${existing.title}"`)
+    const updated = db.updateLink(user.id, id, { ...data, description: data.description || undefined })
+    if (!updated) throw new Error("Link não encontrado")
+    return updated
+  })
+}
+
+export async function toggleFavorite(id: string, favorite: boolean): Promise<ActionResult<Link>> {
+  return run((user) => {
+    const updated = db.updateLink(user.id, id, { favorite })
+    if (!updated) throw new Error("Link não encontrado")
+    return updated
+  })
+}
+
+export async function deleteLink(id: string): Promise<ActionResult<Link>> {
+  return run((user) => {
+    const removed = db.deleteLink(user.id, id)
+    if (!removed) throw new Error("Link não encontrado")
+    return removed
+  })
+}
+
+export async function restoreLink(link: Link): Promise<ActionResult<Link>> {
+  return run((user) => db.restoreLink(user.id, link))
+}
+
+export async function registerVisit(id: string): Promise<ActionResult> {
+  return run((user) => db.registerVisit(user.id, id))
+}
+
+export async function checkDuplicate(url: string, ignoreId?: string): Promise<ActionResult<Link | null>> {
+  return run((user) => (url ? db.findByUrl(user.id, url.trim(), ignoreId) : null))
+}
+
+export async function importLinks(items: unknown): Promise<ActionResult<{ imported: number; skipped: number }>> {
+  return run((user) => {
+    const list = Array.isArray(items) ? items : (items as { links?: unknown })?.links
+    if (!Array.isArray(list)) throw new Error("Arquivo inválido: esperado uma lista de links")
+    const valid = list.filter(
+      (item): item is Record<string, unknown> =>
+        typeof item === "object" && item !== null && linkSchema.shape.url.safeParse((item as { url?: unknown }).url).success,
+    )
+    const result = db.importLinks(user.id, valid)
+    return { imported: result.imported, skipped: result.skipped + (list.length - valid.length) }
+  })
+}
+
+export async function fetchMetadata(rawUrl: string): Promise<ActionResult<LinkMetadata>> {
+  return run(() => fetchPageMetadata(rawUrl))
 }
