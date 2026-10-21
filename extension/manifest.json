@@ -1,0 +1,61 @@
+{
+  "manifest_version": 3,
+  "name": "Stash",
+  "version": "1.1.0",
+  "description": "Salve documentações, ferramentas e posts no seu Stash com um clique e busque seus links de qualquer aba.",
+  "icons": {
+    "16": "icons/icon-16.png",
+    "32": "icons/icon-32.png",
+    "48": "icons/icon-48.png",
+    "128": "icons/icon-128.png"
+  },
+  "action": {
+    "default_title": "Salvar no Stash",
+    "default_popup": "popup.html",
+    "default_icon": {
+      "16": "icons/icon-16.png",
+      "32": "icons/icon-32.png"
+    }
+  },
+  "background": {
+    "service_worker": "background.js",
+    "scripts": [
+      "background.js"
+    ],
+    "type": "module"
+  },
+  "options_ui": {
+    "page": "options.html",
+    "open_in_tab": true
+  },
+  "permissions": [
+    "storage",
+    "activeTab",
+    "scripting",
+    "contextMenus"
+  ],
+  "commands": {
+    "_execute_action": {
+      "suggested_key": {
+        "default": "Alt+Shift+S"
+      },
+      "description": "Abrir o Stash"
+    }
+  },
+  "web_accessible_resources": [
+    {
+      "resources": [
+        "connected.html"
+      ],
+      "matches": [
+        "<all_urls>"
+      ]
+    }
+  ],
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "stash@links.local",
+      "strict_min_version": "121.0"
+    }
+  }
+}

@@ -1,0 +1,346 @@
+/* Mesmos tokens do app web (app/globals.css) */
+:root {
+  color-scheme: light dark;
+  --background: oklch(0.985 0.004 250);
+  --foreground: oklch(0.22 0.02 250);
+  --card: oklch(1 0 0);
+  --primary: oklch(0.52 0.11 185);
+  --primary-foreground: oklch(0.99 0 0);
+  --secondary: oklch(0.955 0.006 250);
+  --secondary-foreground: oklch(0.3 0.02 250);
+  --muted-foreground: oklch(0.5 0.02 250);
+  --destructive: oklch(0.55 0.2 25);
+  --favorite: oklch(0.72 0.16 75);
+  --border: oklch(0.91 0.006 250);
+  --input: oklch(0.89 0.006 250);
+  --ring: oklch(0.52 0.11 185);
+  --radius: 10px;
+  --font-sans: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Inter, Roboto, sans-serif;
+  --font-mono: ui-monospace, "SF Mono", "JetBrains Mono", Menlo, monospace;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: oklch(0.13 0.02 250);
+    --foreground: oklch(0.9 0.01 250);
+    --card: oklch(0.16 0.02 250);
+    --primary: oklch(0.75 0.15 180);
+    --primary-foreground: oklch(0.13 0.02 250);
+    --secondary: oklch(0.2 0.02 250);
+    --secondary-foreground: oklch(0.8 0.01 250);
+    --muted-foreground: oklch(0.62 0.02 250);
+    --destructive: oklch(0.65 0.2 25);
+    --favorite: oklch(0.8 0.15 80);
+    --border: oklch(0.25 0.02 250);
+    --input: oklch(0.28 0.02 250);
+    --ring: oklch(0.75 0.15 180);
+  }
+}
+
+* {
+  box-sizing: border-box;
+}
+
+[hidden] {
+  display: none !important;
+}
+
+html,
+body {
+  margin: 0;
+  background: var(--background);
+  color: var(--foreground);
+  font: 14px/1.45 var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
+  color: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+::selection {
+  background: color-mix(in oklch, var(--primary) 25%, transparent);
+}
+
+.icon {
+  display: inline-flex;
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+}
+
+.icon svg {
+  width: 100%;
+  height: 100%;
+}
+
+/* ----------------------------------------------------------------------------
+   Controles
+---------------------------------------------------------------------------- */
+
+.label {
+  display: block;
+  margin-bottom: 6px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--muted-foreground);
+}
+
+.input {
+  width: 100%;
+  height: 36px;
+  padding: 0 11px;
+  border: 1px solid var(--input);
+  border-radius: 8px;
+  background: var(--card);
+  outline: none;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+
+textarea.input {
+  height: auto;
+  min-height: 60px;
+  padding: 8px 11px;
+  resize: none;
+}
+
+.input:focus,
+.tags-field:focus-within {
+  border-color: var(--ring);
+  box-shadow: 0 0 0 3px color-mix(in oklch, var(--ring) 25%, transparent);
+}
+
+.input::placeholder {
+  color: var(--muted-foreground);
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  height: 36px;
+  padding: 0 14px;
+  border: 0;
+  border-radius: 8px;
+  font-weight: 500;
+  background: var(--primary);
+  color: var(--primary-foreground);
+  transition: opacity 0.15s, background 0.15s;
+}
+
+.btn:hover {
+  opacity: 0.9;
+}
+
+.btn:disabled {
+  opacity: 0.55;
+  cursor: default;
+}
+
+.btn.ghost {
+  background: transparent;
+  color: var(--muted-foreground);
+}
+
+.btn.ghost:hover {
+  background: var(--secondary);
+  color: var(--foreground);
+  opacity: 1;
+}
+
+.btn.outline {
+  background: transparent;
+  color: var(--foreground);
+  border: 1px solid var(--border);
+}
+
+.icon-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  border: 0;
+  border-radius: 8px;
+  background: transparent;
+  color: var(--muted-foreground);
+  transition: background 0.15s, color 0.15s;
+}
+
+.icon-btn:hover {
+  background: var(--secondary);
+  color: var(--foreground);
+}
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+
+.chip {
+  padding: 4px 10px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: transparent;
+  color: var(--muted-foreground);
+  font-size: 13px;
+  transition: all 0.15s;
+}
+
+.chip:hover {
+  color: var(--foreground);
+  border-color: color-mix(in oklch, var(--primary) 45%, transparent);
+}
+
+.chip[aria-checked="true"] {
+  background: var(--primary);
+  border-color: var(--primary);
+  color: var(--primary-foreground);
+}
+
+.tags-field {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 5px;
+  min-height: 36px;
+  padding: 5px 9px;
+  border: 1px solid var(--input);
+  border-radius: 8px;
+  background: var(--card);
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+
+.tags-field > .icon {
+  width: 14px;
+  height: 14px;
+  color: var(--muted-foreground);
+}
+
+.tags-field input {
+  flex: 1;
+  min-width: 80px;
+  border: 0;
+  outline: none;
+  background: transparent;
+  font-size: 13px;
+}
+
+.tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  padding: 2px 4px 2px 8px;
+  border-radius: 6px;
+  background: color-mix(in oklch, var(--primary) 12%, transparent);
+  color: var(--primary);
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.tag button {
+  display: inline-flex;
+  padding: 1px;
+  border: 0;
+  border-radius: 4px;
+  background: transparent;
+  color: inherit;
+}
+
+.tag button:hover {
+  background: color-mix(in oklch, var(--primary) 20%, transparent);
+}
+
+.tag .icon {
+  width: 12px;
+  height: 12px;
+}
+
+.suggestion {
+  padding: 2px 8px;
+  border: 0;
+  border-radius: 6px;
+  background: var(--secondary);
+  color: var(--muted-foreground);
+  font-size: 12px;
+}
+
+.suggestion:hover {
+  color: var(--primary);
+}
+
+.favicon {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 36px;
+  height: 36px;
+  border-radius: 9px;
+  background: var(--secondary);
+  box-shadow: inset 0 0 0 1px var(--border);
+  overflow: hidden;
+  font-weight: 600;
+  font-size: 13px;
+  text-transform: uppercase;
+  color: var(--muted-foreground);
+}
+
+.favicon img {
+  position: absolute;
+  width: 18px;
+  height: 18px;
+  object-fit: contain;
+}
+
+.mono {
+  font-family: var(--font-mono);
+}
+
+.muted {
+  color: var(--muted-foreground);
+}
+
+.error-text {
+  color: var(--destructive);
+  font-size: 13px;
+}
+
+.spinner {
+  width: 18px;
+  height: 18px;
+  border: 2px solid var(--primary);
+  border-top-color: transparent;
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+kbd {
+  display: inline-flex;
+  align-items: center;
+  height: 18px;
+  padding: 0 5px;
+  border-radius: 4px;
+  background: var(--secondary);
+  color: var(--muted-foreground);
+  font: 500 11px var(--font-sans);
+}
