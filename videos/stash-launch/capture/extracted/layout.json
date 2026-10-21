@@ -1,0 +1,192 @@
+{
+  "app-list-light.png": {
+    "sidebar": {
+      "x": 0,
+      "y": 0,
+      "width": 256,
+      "height": 1080
+    },
+    "categories": {
+      "x": 12,
+      "y": 172,
+      "width": 231,
+      "height": 295
+    },
+    "tags": {
+      "x": 12,
+      "y": 491,
+      "width": 231,
+      "height": 223
+    },
+    "header": {
+      "x": 256,
+      "y": 0,
+      "width": 1664,
+      "height": 65
+    },
+    "search": {
+      "x": 728,
+      "y": 12,
+      "width": 486,
+      "height": 40
+    },
+    "list": {
+      "x": 704,
+      "y": 65,
+      "width": 768,
+      "height": 2549
+    },
+    "card1": {
+      "x": 728,
+      "y": 153,
+      "width": 720,
+      "height": 151
+    },
+    "card2": {
+      "x": 728,
+      "y": 316,
+      "width": 720,
+      "height": 151
+    },
+    "card3": {
+      "x": 728,
+      "y": 479,
+      "width": 720,
+      "height": 151
+    }
+  },
+  "app-search.png": {
+    "search": {
+      "x": 728,
+      "y": 12,
+      "width": 486,
+      "height": 40
+    },
+    "heading": {
+      "x": 728,
+      "y": 97,
+      "width": 159,
+      "height": 32
+    },
+    "results": {
+      "x": 728,
+      "y": 191,
+      "width": 720,
+      "height": 802
+    },
+    "card1": {
+      "x": 728,
+      "y": 191,
+      "width": 720,
+      "height": 151
+    },
+    "card5": {
+      "x": 728,
+      "y": 842,
+      "width": 720,
+      "height": 151
+    }
+  },
+  "app-new-link.png": {
+    "dialog": {
+      "x": 704,
+      "y": 160,
+      "width": 512,
+      "height": 760
+    },
+    "url": {
+      "x": 781,
+      "y": 295,
+      "width": 410,
+      "height": 40
+    },
+    "title": {
+      "x": 729,
+      "y": 379,
+      "width": 462,
+      "height": 40
+    },
+    "description": {
+      "x": 729,
+      "y": 463,
+      "width": 462,
+      "height": 80
+    },
+    "categories": {
+      "x": 143,
+      "y": 970,
+      "width": 92,
+      "height": 32
+    },
+    "tags": {
+      "x": 887,
+      "y": 715,
+      "width": 293,
+      "height": 20
+    }
+  },
+  "dialog-new-link.png": {
+    "dialog": {
+      "x": 0,
+      "y": 0,
+      "width": 512,
+      "height": 760
+    },
+    "url": {
+      "x": 77,
+      "y": 135,
+      "width": 410,
+      "height": 40
+    },
+    "title": {
+      "x": 25,
+      "y": 219,
+      "width": 462,
+      "height": 40
+    },
+    "description": {
+      "x": 25,
+      "y": 303,
+      "width": 462,
+      "height": 80
+    },
+    "categories": {
+      "x": -561,
+      "y": 810,
+      "width": 92,
+      "height": 32
+    },
+    "tags": {
+      "x": 183,
+      "y": 555,
+      "width": 293,
+      "height": 20
+    }
+  },
+  "ext-popup-save.png": {
+    "header": {
+      "x": 0,
+      "y": 0,
+      "width": 390,
+      "height": 51
+    },
+    "title": {
+      "x": 60,
+      "y": 65,
+      "width": 316,
+      "height": 32
+    },
+    "form": {
+      "x": 0,
+      "y": 51,
+      "width": 390,
+      "height": 467
+    },
+    "submit": {
+      "x": 280,
+      "y": 442,
+      "width": 96,
+      "height": 36
+    }
+  }
+}
