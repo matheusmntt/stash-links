@@ -1,0 +1,14 @@
+# Saídas de render (a versão publicada fica em docs/video/)
+renders/
+
+# Caches e artefatos do HyperFrames Studio
+.hyperframes/
+.thumbnails/
+.waveform-cache/
+
+# Capturas brutas do app: recriadas por `node scripts/capture-app.mjs`
+# (as usadas no vídeo ficam copiadas em assets/ui/)
+capture/assets/
+
+# Originais da biblioteca de efeitos (os usados estão em assets/sfx/; a procedência fica em .media/manifest.jsonl)
+.media/audio/
