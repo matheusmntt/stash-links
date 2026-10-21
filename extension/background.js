@@ -1,4 +1,4 @@
-import { ApiError, api, getConfig, isSavableUrl } from "./shared.js"
+import { ApiError, PRECONFIGURED, DEFAULT_SERVER, api, getConfig, isSavableUrl, startConnect } from "./shared.js"
 
 const MENU_PAGE = "stash-save-page"
 const MENU_LINK = "stash-save-link"
@@ -9,8 +9,11 @@ chrome.runtime.onInstalled.addListener(async ({ reason }) => {
     chrome.contextMenus.create({ id: MENU_LINK, title: "Salvar link no Stash", contexts: ["link"] })
   })
 
-  // Primeira instalação: abre as configurações para conectar ao servidor
-  if (reason === "install") chrome.runtime.openOptionsPage()
+  // Primeira instalação: se já veio configurada, vai direto para a autorização; senão, para as configurações
+  if (reason === "install") {
+    if (PRECONFIGURED) startConnect(DEFAULT_SERVER)
+    else chrome.runtime.openOptionsPage()
+  }
 })
 
 chrome.contextMenus.onClicked.addListener(async (info, tab) => {

@@ -9,8 +9,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "typecheck": "tsc --noEmit",
-    "ext:zip": "cd extension && rm -f ../stash-extension.zip && zip -qr ../stash-extension.zip . -x icons/icon.svg"
+    "typecheck": "tsc --noEmit"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.10.0",

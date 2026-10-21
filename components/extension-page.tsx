@@ -2,7 +2,7 @@
 
 import type React from "react"
 
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import Link from "next/link"
 import { formatDistanceToNow } from "date-fns"
 import { ptBR } from "date-fns/locale"
@@ -13,9 +13,6 @@ import { Kbd } from "@/components/ui/kbd"
 import type { SessionInfo } from "@/lib/types"
 
 export function ExtensionPage({ connected }: { connected: SessionInfo[] }) {
-  const [origin, setOrigin] = useState("")
-  useEffect(() => setOrigin(window.location.origin), [])
-
   return (
     <main className="min-h-screen px-4 sm:px-6 py-8 sm:py-12">
       <div className="mx-auto max-w-2xl">
@@ -82,10 +79,9 @@ export function ExtensionPage({ connected }: { connected: SessionInfo[] }) {
               <code className="font-mono text-xs bg-secondary px-1.5 py-0.5 rounded whitespace-nowrap">stash-extension</code>. Fixe o ícone
               na barra para ter acesso rápido.
             </Step>
-            <Step n={4} title="Conecte à sua conta">
-              A configuração abre sozinha. Confira o endereço abaixo, clique em <strong>Conectar com o Stash</strong> e
-              autorize na página que abrir. Não precisa digitar senha na extensão.
-              {origin && <CopyField value={origin} />}
+            <Step n={4} title="Autorize o acesso">
+              A extensão já vem configurada para este Stash: assim que for instalada, abre uma aba pedindo para você{" "}
+              <strong>Autorizar</strong> o acesso à sua conta. Não precisa digitar endereço nem senha.
             </Step>
           </ol>
 

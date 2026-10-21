@@ -130,7 +130,11 @@
           </p>
         </div>
         <form id="connect-form" class="stack">
-          <div>
+          <p class="help muted" id="server-preset" hidden style="margin: 0">
+            Seu Stash: <strong id="preset-url"></strong> ·
+            <a href="#" id="change-server">usar outro endereço</a>
+          </p>
+          <div id="server-field">
             <label class="label" for="server">Endereço do Stash</label>
             <input class="input" id="server" type="url" placeholder="http://localhost:3000" required />
             <p class="help muted">O mesmo endereço onde você abre o Stash no navegador.</p>

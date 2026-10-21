@@ -1,6 +1,7 @@
 import {
   DEFAULT_SERVER,
   FALLBACK_CATEGORY,
+  PRECONFIGURED,
   api,
   browserLabel,
   checkServer,
@@ -23,6 +24,11 @@ async function render() {
 
   if (!connected) {
     if (!$("server").value) $("server").value = config.serverUrl || DEFAULT_SERVER
+    // Endereço veio do download do Stash: não precisa digitar nada
+    const preset = PRECONFIGURED && $("server").value === DEFAULT_SERVER && !$("server-field").dataset.manual
+    $("server-preset").hidden = !preset
+    $("server-field").hidden = preset
+    $("preset-url").textContent = DEFAULT_SERVER
     if (config.email && !$("email").value) $("email").value = config.email
     return
   }
@@ -64,6 +70,14 @@ async function resolveServer(errorId) {
   }
   return serverUrl
 }
+
+$("change-server").addEventListener("click", (e) => {
+  e.preventDefault()
+  $("server-field").dataset.manual = "true"
+  $("server-preset").hidden = true
+  $("server-field").hidden = false
+  $("server").select()
+})
 
 $("server").addEventListener("input", () => {
   showError("connect-error", "")

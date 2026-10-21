@@ -31,5 +31,3 @@ next-env.d.ts
 /data/*.db
 /data/*.db-*
 
-# extensão empacotada
-/stash-extension.zip

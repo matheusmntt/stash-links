@@ -1,12 +1,16 @@
 // Código compartilhado entre popup, opções e service worker
 
-export const DEFAULT_SERVER = "http://localhost:3000"
+import { PRECONFIGURED, SERVER_URL } from "./config.js"
+
+export { PRECONFIGURED }
+export const DEFAULT_SERVER = SERVER_URL
 export const FALLBACK_CATEGORY = "Outros"
 
 export async function getConfig() {
   const config = await chrome.storage.local.get(["serverUrl", "token", "email", "defaultCategory", "lastCategory"])
   return {
-    serverUrl: config.serverUrl || "",
+    // Baixada pelo Stash, a extensão já sabe o endereço do servidor
+    serverUrl: config.serverUrl || (PRECONFIGURED ? SERVER_URL : ""),
     token: config.token || "",
     email: config.email || "",
     defaultCategory: config.defaultCategory || FALLBACK_CATEGORY,
