@@ -2,6 +2,14 @@
 
 Gerenciador pessoal de links: documentações, ferramentas, posts e qualquer coisa que valha guardar, tudo em um só lugar.
 
+<p align="center">
+  <a href="docs/video/stash-launch.mp4">
+    <img src="docs/video/stash-launch.gif" alt="Vídeo de lançamento do Stash: organize, encontre e salve links, e a extensão do navegador" width="800" />
+  </a>
+  <br />
+  <sub>▶ <a href="docs/video/stash-launch.mp4">Assista ao vídeo de lançamento com som (MP4, 30 s)</a></sub>
+</p>
+
 ![Stash no tema escuro, com a lista de links, categorias e tags](docs/screenshots/app-dark.png)
 
 <table>
