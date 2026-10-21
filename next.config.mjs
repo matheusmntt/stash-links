@@ -3,7 +3,9 @@ const nextConfig = {
   images: {
     unoptimized: true,
   },
-  // Garante que a pasta da extensão vá junto no build (download em /api/extension)
+  // Cliente do Turso/libSQL tem partes nativas: fica fora do bundle do servidor
+  serverExternalPackages: ["@libsql/client", "libsql"],
+  // Garante que a pasta da extensão vá junto no deploy (download em /api/extension)
   outputFileTracingIncludes: {
     "/api/extension": ["./extension/**/*"],
   },
