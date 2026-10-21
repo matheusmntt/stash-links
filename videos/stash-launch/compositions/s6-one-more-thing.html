@@ -1,0 +1,52 @@
+<template>
+  <style>
+    #root {
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+      font-family: Inter, sans-serif;
+    }
+    #s6-ground {
+      position: absolute;
+      inset: 0;
+      background: #0b1120;
+    }
+    #s6-line {
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 486px;
+      text-align: center;
+      font-size: 96px;
+      font-weight: 700;
+      letter-spacing: -0.035em;
+      line-height: 1.1;
+    }
+    #s6-line span {
+      display: inline-block;
+      opacity: 0;
+      color: #5b6170;
+    }
+    #s6-flood {
+      position: absolute;
+      inset: 0;
+      background: #f4f2ee;
+      opacity: 0;
+    }
+  </style>
+  <div data-hf-id="hf-7obi" id="root" data-composition-id="s6" data-width="1920" data-height="1080">
+    <div data-hf-id="hf-oo1z" id="s6-ground" class="clip" data-start="0" data-duration="2"></div>
+    <div data-hf-id="hf-cxeh" id="s6-line"><span data-hf-id="hf-p93f">One</span> <span data-hf-id="hf-oktw">more</span> <span data-hf-id="hf-oz9j">thing…</span></div>
+    <div data-hf-id="hf-kwz1" id="s6-flood"></div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    // A pausa: a tela fica escura meio tempo; depois cada palavra sai do cinza e clareia
+    tl.fromTo("#s6-line span", { opacity: 0, color: "#5b6170" }, { opacity: 1, duration: 0.12, ease: "none", stagger: 0.09 }, 0.5);
+    tl.to("#s6-line span", { color: "#f4f2ee", duration: 0.25, ease: "power2.out", stagger: 0.09 }, 0.58);
+    // Saída: a porcelana volta (colour flood) e a linha sai com ela
+    tl.to("#s6-line span", { opacity: 0, filter: "blur(8px)", duration: 0.18, ease: "power3.in", stagger: 0.03 }, 1.66);
+    tl.to("#s6-flood", { opacity: 1, duration: 0.3, ease: "power2.inOut" }, 1.7);
+    window.__timelines["s6"] = tl;
+  </script>
+</template>

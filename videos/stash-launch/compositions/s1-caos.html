@@ -1,0 +1,133 @@
+<template>
+  <style>
+    #root {
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+      font-family: Inter, sans-serif;
+      color: #0b1120;
+    }
+    #s1-ground {
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(70% 70% at 50% 20%, rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0) 70%), #f4f2ee;
+    }
+    .s1-plate {
+      position: absolute;
+      border-radius: 36px;
+    }
+    .s1-word {
+      position: absolute;
+      left: 160px;
+      top: 410px;
+      font-size: 220px;
+      font-weight: 800;
+      letter-spacing: -0.045em;
+      line-height: 0.95;
+      white-space: nowrap;
+      opacity: 0;
+    }
+    #s1-lost {
+      position: absolute;
+      left: 160px;
+      top: 360px;
+      font-size: 128px;
+      font-weight: 800;
+      letter-spacing: -0.045em;
+      line-height: 0.98;
+    }
+    #s1-lost span {
+      display: inline-block;
+      opacity: 0;
+    }
+    .s1-card {
+      position: absolute;
+      width: 852px;
+      padding: 12px;
+      border-radius: 24px;
+      background: rgba(255, 255, 255, 0.55);
+      backdrop-filter: blur(24px) saturate(140%);
+      border: 1px solid rgba(255, 255, 255, 0.7);
+      box-shadow: inset 0 0 0 1px rgba(11, 17, 32, 0.06), 0 30px 60px -20px rgba(11, 17, 32, 0.18);
+      opacity: 0;
+    }
+    .s1-card img {
+      display: block;
+      width: 828px;
+      height: auto;
+      border-radius: 14px;
+    }
+  </style>
+  <div data-hf-id="hf-3pu3" id="root" data-composition-id="s1" data-width="1920" data-height="1080">
+    <div data-hf-id="hf-pbjc" id="s1-ground" class="clip" data-start="0" data-duration="4"></div>
+
+    <div data-hf-id="hf-smor" class="s1-plate" data-layout-allow-overflow id="s1-plate-a" style="left: 820px; top: 300px; width: 1180px; height: 200px; background: #ebe8e2"></div>
+    <div data-hf-id="hf-nq5o" class="s1-plate" data-layout-allow-overflow id="s1-plate-b" style="left: 760px; top: 640px; width: 1240px; height: 210px; background: rgba(15, 158, 143, 0.07)"></div>
+
+    <div data-hf-id="hf-bjkn" class="s1-word" id="s1-w1">Docs.</div>
+    <div data-hf-id="hf-bms1" class="s1-word" id="s1-w2">Ferramentas.</div>
+    <div data-hf-id="hf-i93x" class="s1-word" id="s1-w3">Posts.</div>
+    <div data-hf-id="hf-den4" id="s1-lost" data-layout-allow-overlap>
+      <span data-hf-id="hf-qgaj">Perdidos</span><br data-hf-id="hf-x5px" /><span data-hf-id="hf-gbeb">em</span> <span data-hf-id="hf-4g4k">abas.</span>
+    </div>
+
+    <div data-hf-id="hf-tceo" class="s1-card" id="s1-c1" style="left: 940px; top: 170px"><img data-hf-id="hf-06ca" src="assets/ui/card-react.png" alt="" /></div>
+    <div data-hf-id="hf-zav1" class="s1-card" id="s1-c2" style="left: 1030px; top: 430px"><img data-hf-id="hf-7n26" src="assets/ui/card-shadcn.png" alt="" /></div>
+    <div data-hf-id="hf-kd8u" class="s1-card" id="s1-c3" style="left: 880px; top: 690px"><img data-hf-id="hf-ai25" src="assets/ui/card-useeffect.png" alt="" /></div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    // Tempos da faixa (117.5 BPM): 0.03, 0.54, 1.05, 1.56 (primeiro tempo), 2.04 (forte)
+    const words = ["#s1-w1", "#s1-w2", "#s1-w3"];
+    const hits = [0.03, 0.54, 1.05];
+    words.forEach((w, i) => {
+      tl.fromTo(w, { opacity: 0, filter: "blur(8px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.15, ease: "power4.out" }, hits[i]);
+      const out = i < words.length - 1 ? hits[i + 1] - 0.06 : 1.98;
+      tl.to(w, { opacity: 0, filter: "blur(8px)", duration: 0.1, ease: "power3.in" }, out);
+    });
+
+    // O "monte de abas": cards reais chegam espalhados, em ângulos diferentes
+    const cards = [
+      { id: "#s1-c1", r: -5, dx: 60, at: 1.52 },
+      { id: "#s1-c2", r: 4, dx: 90, at: 1.6 },
+      { id: "#s1-c3", r: -2, dx: 70, at: 1.68 },
+    ];
+    cards.forEach(({ id, r, dx, at }) => {
+      tl.fromTo(
+        id,
+        { opacity: 0, x: dx, y: 40, rotation: r * 1.8, scale: 0.94, filter: "blur(6px)" },
+        { opacity: 1, x: 0, y: 0, rotation: r, scale: 1, filter: "blur(0px)", duration: 0.6, ease: "expo.out" },
+        at,
+      );
+    });
+    tl.fromTo(["#s1-plate-a", "#s1-plate-b"], { opacity: 0, x: 120 }, { opacity: 1, x: 0, duration: 0.6, ease: "expo.out", stagger: 0.08 }, 1.48);
+
+    // "Perdidos em abas." pousa no forte de 2.04, por palavra
+    tl.fromTo(
+      "#s1-lost span",
+      { opacity: 0, filter: "blur(8px)" },
+      { opacity: 1, filter: "blur(0px)", duration: 0.15, ease: "power4.out", stagger: 0.07 },
+      2.0,
+    );
+
+    // Saída: os cards convergem para onde o ícone do Stash nasce (centro do ícone na cena 2: 717, 470)
+    tl.to("#s1-lost span", { opacity: 0, filter: "blur(8px)", duration: 0.18, ease: "power3.in", stagger: 0.04 }, 3.6);
+    const target = { x: 717, y: 470 };
+    [
+      { id: "#s1-c1", left: 940, top: 170 },
+      { id: "#s1-c2", left: 1030, top: 430 },
+      { id: "#s1-c3", left: 880, top: 690 },
+    ].forEach(({ id, left, top }, i) => {
+      const cx = left + 426;
+      const cy = top + 80;
+      tl.to(
+        id,
+        { x: target.x - cx, y: target.y - cy, scale: 0.14, rotation: 0, opacity: 0.55, filter: "blur(6px)", duration: 0.45, ease: "power3.in" },
+        3.53 + i * 0.01,
+      );
+    });
+    tl.to(["#s1-plate-a", "#s1-plate-b"], { opacity: 0, x: -80, duration: 0.3, ease: "power3.in" }, 3.62);
+
+    window.__timelines["s1"] = tl;
+  </script>
+</template>
