@@ -3,7 +3,7 @@
 import type React from "react"
 
 import { useEffect, useMemo, useRef, useState } from "react"
-import { AlertTriangle, Hash, Loader2, Sparkles, Star, X } from "lucide-react"
+import { AlertTriangle, Hash, Info, Loader2, Sparkles, Star, X } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
@@ -11,7 +11,7 @@ import { Kbd } from "@/components/ui/kbd"
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog"
 import { Favicon } from "./favicon"
 import { addLink, checkDuplicate, fetchMetadata, updateLink } from "@/lib/actions"
-import { normalizeText } from "@/lib/link-utils"
+import { isInternalUrl, normalizeText } from "@/lib/link-utils"
 import { cn } from "@/lib/utils"
 import type { ActionResult, Link } from "@/lib/types"
 
@@ -107,7 +107,8 @@ export function LinkDialog({
       const dup = handleResult(await checkDuplicate(target, link?.id))
       if (!cancelled) setDuplicate(dup ?? null)
 
-      if (target === lastFetchedUrl.current) return
+      // Rede interna: o servidor não alcança, então nem tenta buscar o título
+      if (target === lastFetchedUrl.current || isInternalUrl(target)) return
       lastFetchedUrl.current = target
       setFetchingMeta(true)
       const meta = handleResult(await fetchMetadata(target))
@@ -229,6 +230,13 @@ export function LinkDialog({
                 )}
               </div>
             </div>
+            {!duplicate && isValidUrl(url.trim()) && isInternalUrl(url.trim()) && (
+              <p className="flex items-start gap-1.5 text-xs text-muted-foreground">
+                <Info className="size-3.5 shrink-0 mt-px" />
+                Endereço de rede interna: preencha o título manualmente ou salve pela extensão, que lê o título direto
+                da página.
+              </p>
+            )}
             {duplicate && (
               <p className="flex items-center gap-1.5 text-xs text-favorite">
                 <AlertTriangle className="size-3.5 shrink-0" />

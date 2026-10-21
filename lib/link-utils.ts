@@ -9,6 +9,28 @@ export function getDomain(url: string): string {
   }
 }
 
+/**
+ * Endereços de rede interna (localhost, IPs privados, nomes sem domínio como "http://intranet").
+ * Podem ser salvos normalmente; só não têm o título buscado pelo servidor, que não alcança essas redes.
+ */
+export function isInternalUrl(url: string): boolean {
+  let hostname: string
+  try {
+    hostname = new URL(url).hostname.toLowerCase()
+  } catch {
+    return false
+  }
+  return (
+    hostname === "localhost" ||
+    hostname.endsWith(".local") ||
+    hostname.endsWith(".internal") ||
+    !hostname.includes(".") ||
+    /^(127\.|10\.|192\.168\.|169\.254\.|0\.)/.test(hostname) ||
+    /^172\.(1[6-9]|2\d|3[01])\./.test(hostname) ||
+    /^\[(::1|f[cd]|fe80)/.test(hostname)
+  )
+}
+
 /** Minúsculas e sem acentos, para a busca encontrar "documentacao" em "Documentação". */
 export function normalizeText(text: string): string {
   return text

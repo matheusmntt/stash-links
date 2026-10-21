@@ -1,18 +1,9 @@
+import { isInternalUrl } from "./link-utils"
 import type { LinkMetadata } from "./types"
 
 // ---------------------------------------------------------------------------
 
 const MAX_HTML_BYTES = 512 * 1024
-
-function isPrivateHost(hostname: string): boolean {
-  return (
-    hostname === "localhost" ||
-    hostname.endsWith(".local") ||
-    /^(127\.|10\.|192\.168\.|169\.254\.|0\.)/.test(hostname) ||
-    /^172\.(1[6-9]|2\d|3[01])\./.test(hostname) ||
-    hostname === "[::1]"
-  )
-}
 
 function decodeEntities(text: string): string {
   return text
@@ -74,7 +65,8 @@ async function readLimited(response: Response): Promise<string> {
 
 export async function fetchPageMetadata(rawUrl: string): Promise<LinkMetadata> {
   const url = new URL(rawUrl.trim())
-  if (!/^https?:$/.test(url.protocol) || isPrivateHost(url.hostname)) throw new Error("URL não suportada")
+  // O servidor não acessa a rede interna (proteção contra SSRF); salvar o link continua permitido
+  if (!/^https?:$/.test(url.protocol) || isInternalUrl(url.toString())) throw new Error("URL não suportada")
 
   const response = await fetch(url, {
     signal: AbortSignal.timeout(6000),
