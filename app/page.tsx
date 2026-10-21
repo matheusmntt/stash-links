@@ -1,8 +1,7 @@
 import { StashApp } from "@/components/stash-app"
 import { LoginScreen } from "@/components/login-screen"
 import { listLinks } from "@/lib/db"
-import { getSession, isSignupAllowed } from "@/lib/session"
-import { countUsers } from "@/lib/users"
+import { getLoginScreenProps, getSession } from "@/lib/session"
 
 export const dynamic = "force-dynamic"
 
@@ -15,7 +14,7 @@ export default async function Home({
 
   // Nada de dados é enviado ao navegador sem sessão válida
   if (!session) {
-    return <LoginScreen firstUser={countUsers() === 0} signupAllowed={isSignupAllowed()} />
+    return <LoginScreen {...await getLoginScreenProps()} />
   }
 
   const { add, title } = await searchParams
@@ -23,7 +22,7 @@ export default async function Home({
   return (
     <StashApp
       user={session.user}
-      initialLinks={listLinks(session.user.id)}
+      initialLinks={await listLinks(session.user.id)}
       sessionExpiresAt={Date.parse(session.expiresAt)}
       prefill={add ? { url: add, title: title ?? "" } : undefined}
     />

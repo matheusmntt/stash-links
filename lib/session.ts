@@ -14,9 +14,9 @@ export function getSessionDurationMs(): number {
   return (Number.isFinite(minutes) && minutes > 0 ? minutes : DEFAULT_SESSION_MINUTES) * 60 * 1000
 }
 
-/** O primeiro cadastro é sempre liberado (setup); depois, só com ALLOW_SIGNUP=true. */
-export function isSignupAllowed(): boolean {
-  return countUsers() === 0 || process.env.ALLOW_SIGNUP === "true"
+/** Cadastro aberto por padrão; ALLOW_SIGNUP=false fecha para novas contas (só login). */
+export function isSignupEnabled(): boolean {
+  return process.env.ALLOW_SIGNUP !== "false"
 }
 
 export function hashPassword(password: string): Promise<string> {
@@ -55,7 +55,7 @@ export async function getCurrentUser(): Promise<User | null> {
 /** Aceita o cookie de sessão (app web) ou um token Bearer (extensão). */
 export async function getRequestUser(request: Request): Promise<User | null> {
   const header = request.headers.get("authorization")
-  if (header?.startsWith("Bearer ")) return getSessionByToken(header.slice(7).trim(), "api")?.user ?? null
+  if (header?.startsWith("Bearer ")) return (await getSessionByToken(header.slice(7).trim(), "api"))?.user ?? null
   return getCurrentUser()
 }
 
@@ -69,4 +69,9 @@ export async function requireUser(): Promise<User> {
   const user = await getCurrentUser()
   if (!user) throw new UnauthorizedError()
   return user
+}
+
+/** Dados que a tela de login precisa para decidir entre "Entrar" e "Criar conta". */
+export async function getLoginScreenProps(): Promise<{ signupEnabled: boolean; noUsers: boolean }> {
+  return { signupEnabled: isSignupEnabled(), noUsers: (await countUsers()) === 0 }
 }

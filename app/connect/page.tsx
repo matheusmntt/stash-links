@@ -1,8 +1,7 @@
 import type { Metadata } from "next"
 import { ConnectScreen } from "@/components/connect-screen"
 import { LoginScreen } from "@/components/login-screen"
-import { getSession, isExtensionRedirect, isSignupAllowed } from "@/lib/session"
-import { countUsers } from "@/lib/users"
+import { getLoginScreenProps, getSession, isExtensionRedirect } from "@/lib/session"
 
 export const dynamic = "force-dynamic"
 
@@ -19,11 +18,7 @@ export default async function ConnectPage({
   const session = await getSession()
   if (!session) {
     return (
-      <LoginScreen
-        firstUser={countUsers() === 0}
-        signupAllowed={isSignupAllowed()}
-        message="Entre na sua conta para conectar a extensão do navegador"
-      />
+      <LoginScreen {...await getLoginScreenProps()} message="Entre na sua conta para conectar a extensão do navegador" />
     )
   }
 

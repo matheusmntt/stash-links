@@ -11,7 +11,7 @@ import {
   getSessionDurationMs,
   hashPassword,
   isExtensionRedirect,
-  isSignupAllowed,
+  isSignupEnabled,
   verifyPassword,
 } from "./session"
 import * as users from "./users"
@@ -28,7 +28,7 @@ const nameSchema = z.string().trim().min(1, "Informe seu nome").max(80)
 
 async function startSession(userId: string) {
   const duration = getSessionDurationMs()
-  const { token } = users.createSession(userId, "web", duration)
+  const { token } = await users.createSession(userId, "web", duration)
   const cookieStore = await cookies()
   cookieStore.set(SESSION_COOKIE, token, {
     httpOnly: true,
@@ -40,7 +40,7 @@ async function startSession(userId: string) {
 }
 
 export async function login(email: string, password: string): Promise<AuthResult> {
-  const user = users.findUserByEmail(String(email ?? ""))
+  const user = await users.findUserByEmail(String(email ?? ""))
   if (!(await verifyPassword(String(password ?? ""), user?.passwordHash)) || !user) {
     await failureDelay()
     return { success: false, error: "E-mail ou senha incorretos" }
@@ -50,14 +50,16 @@ export async function login(email: string, password: string): Promise<AuthResult
 }
 
 export async function signup(input: { name: string; email: string; password: string }): Promise<AuthResult> {
-  if (!isSignupAllowed()) return { success: false, error: "O cadastro de novas contas está desativado" }
+  if (!isSignupEnabled()) return { success: false, error: "O cadastro de novas contas está desativado" }
 
   const parsed = z.object({ name: nameSchema, email: emailSchema, password: passwordSchema }).safeParse(input)
   if (!parsed.success) return { success: false, error: parsed.error.errors[0]?.message }
 
-  if (users.findUserByEmail(parsed.data.email)) return { success: false, error: "Já existe uma conta com esse e-mail" }
+  if (await users.findUserByEmail(parsed.data.email)) {
+    return { success: false, error: "Já existe uma conta com esse e-mail" }
+  }
 
-  const user = users.createUser({ ...parsed.data, passwordHash: await hashPassword(parsed.data.password) })
+  const user = await users.createUser({ ...parsed.data, passwordHash: await hashPassword(parsed.data.password) })
   await startSession(user.id)
   return { success: true }
 }
@@ -65,7 +67,7 @@ export async function signup(input: { name: string; email: string; password: str
 export async function logout(): Promise<void> {
   const cookieStore = await cookies()
   const token = cookieStore.get(SESSION_COOKIE)?.value
-  if (token) users.deleteSessionByToken(token)
+  if (token) await users.deleteSessionByToken(token)
   cookieStore.delete(SESSION_COOKIE)
 }
 
@@ -87,11 +89,11 @@ async function withSession<T>(
 }
 
 export async function updateProfile(input: { name: string; email: string }): Promise<ActionResult<User>> {
-  return withSession(({ user }) => {
+  return withSession(async ({ user }) => {
     const data = z.object({ name: nameSchema, email: emailSchema }).parse(input)
-    const owner = users.findUserByEmail(data.email)
+    const owner = await users.findUserByEmail(data.email)
     if (owner && owner.id !== user.id) throw new Error("Já existe uma conta com esse e-mail")
-    const updated = users.updateProfile(user.id, data)
+    const updated = await users.updateProfile(user.id, data)
     if (!updated) throw new Error("Conta não encontrada")
     return updated
   })
@@ -100,12 +102,12 @@ export async function updateProfile(input: { name: string; email: string }): Pro
 /** Troca a senha e encerra todas as outras sessões e tokens da extensão. */
 export async function changePassword(currentPassword: string, newPassword: string): Promise<ActionResult> {
   return withSession(async ({ user, sessionId }) => {
-    if (!(await verifyPassword(currentPassword, users.getPasswordHash(user.id)))) {
+    if (!(await verifyPassword(currentPassword, await users.getPasswordHash(user.id)))) {
       await failureDelay()
       throw new Error("Senha atual incorreta")
     }
-    users.updatePasswordHash(user.id, await hashPassword(passwordSchema.parse(newPassword)))
-    users.deleteOtherSessions(user.id, sessionId)
+    await users.updatePasswordHash(user.id, await hashPassword(passwordSchema.parse(newPassword)))
+    await users.deleteOtherSessions(user.id, sessionId)
   })
 }
 
@@ -114,9 +116,9 @@ export async function getSessions(): Promise<ActionResult<SessionInfo[]>> {
 }
 
 export async function revokeSession(id: string): Promise<ActionResult> {
-  return withSession(({ user, sessionId }) => {
+  return withSession(async ({ user, sessionId }) => {
     if (id === sessionId) throw new Error("Use \"Sair\" para encerrar a sessão atual")
-    if (!users.deleteSession(user.id, id)) throw new Error("Sessão não encontrada")
+    if (!(await users.deleteSession(user.id, id))) throw new Error("Sessão não encontrada")
   })
 }
 
@@ -129,12 +131,12 @@ export async function authorizeExtension(input: {
   state: string
   label?: string
 }): Promise<ActionResult<{ redirectUrl: string }>> {
-  return withSession(({ user }) => {
+  return withSession(async ({ user }) => {
     if (!isExtensionRedirect(input.redirect)) throw new Error("Endereço de retorno inválido")
     if (!/^[A-Za-z0-9_-]{16,128}$/.test(input.state)) throw new Error("Pedido de conexão inválido")
 
     const label = (input.label || "Extensão do navegador").slice(0, 80)
-    const { token } = users.createSession(user.id, "api", API_TOKEN_DURATION_MS, label)
+    const { token } = await users.createSession(user.id, "api", API_TOKEN_DURATION_MS, label)
     const params = new URLSearchParams({ token, state: input.state, email: user.email, name: user.name })
     return { redirectUrl: `${input.redirect}#${params}` }
   })

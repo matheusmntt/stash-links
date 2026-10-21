@@ -10,16 +10,19 @@ import { Input } from "@/components/ui/input"
 import { login, signup } from "@/lib/auth"
 
 interface LoginScreenProps {
-  /** Nenhuma conta existe ainda: a tela vira o cadastro da primeira conta */
-  firstUser: boolean
-  signupAllowed: boolean
+  /** Cadastro de novas contas liberado (ALLOW_SIGNUP diferente de "false") */
+  signupEnabled: boolean
+  /** Nenhuma conta existe ainda */
+  noUsers: boolean
   /** Texto abaixo do logo, ex.: "Entre para conectar a extensão" */
   message?: string
 }
 
-export function LoginScreen({ firstUser, signupAllowed, message }: LoginScreenProps) {
+export function LoginScreen({ signupEnabled, noUsers, message }: LoginScreenProps) {
   const router = useRouter()
-  const [mode, setMode] = useState<"login" | "signup">(firstUser ? "signup" : "login")
+  const [mode, setMode] = useState<"login" | "signup">(noUsers && signupEnabled ? "signup" : "login")
+  // Sem contas e sem cadastro liberado: não há como entrar até configurar o ambiente
+  const needsSetup = noUsers && !signupEnabled
   const [name, setName] = useState("")
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
@@ -73,11 +76,20 @@ export function LoginScreen({ firstUser, signupAllowed, message }: LoginScreenPr
           </div>
           <h1 className="text-3xl font-bold tracking-tight text-foreground">Stash</h1>
           <p className="text-muted-foreground text-sm mt-1.5">
-            {firstUser
-              ? "Crie a primeira conta para começar"
-              : message || "Seus links, documentações e ferramentas em um só lugar"}
+            {message || "Seus links, documentações e ferramentas em um só lugar"}
           </p>
         </div>
+
+        {needsSetup && (
+          <div role="status" className="mb-4 rounded-xl border border-primary/30 bg-primary/5 p-4 text-sm">
+            <p className="font-medium">Nenhuma conta criada ainda</p>
+            <p className="mt-1 text-muted-foreground">
+              O cadastro está desativado. Remova{" "}
+              <code className="font-mono text-xs bg-secondary px-1 py-0.5 rounded">ALLOW_SIGNUP=false</code> das variáveis
+              de ambiente para criar a primeira conta.
+            </p>
+          </div>
+        )}
 
         <form onSubmit={handleSubmit} className="p-6 rounded-2xl bg-card border border-border shadow-xl space-y-4">
           <h2 className="font-semibold">{isSignup ? "Criar conta" : "Entrar"}</h2>
@@ -150,7 +162,7 @@ export function LoginScreen({ firstUser, signupAllowed, message }: LoginScreenPr
           </Button>
         </form>
 
-        {signupAllowed && !firstUser && (
+        {signupEnabled && (
           <p className="text-center text-sm text-muted-foreground mt-6">
             {isSignup ? "Já tem uma conta?" : "Ainda não tem conta?"}{" "}
             <button type="button" onClick={switchMode} className="text-primary font-medium hover:underline">
