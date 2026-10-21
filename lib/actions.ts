@@ -25,36 +25,36 @@ export async function getLinks(): Promise<ActionResult<Link[]>> {
 }
 
 export async function addLink(input: unknown): Promise<ActionResult<Link>> {
-  return run((user) => {
+  return run(async (user) => {
     const data = linkSchema.parse(input)
-    const existing = db.findByUrl(user.id, data.url)
+    const existing = await db.findByUrl(user.id, data.url)
     if (existing) throw new Error(`Esse link já está salvo como "${existing.title}"`)
     return db.createLink(user.id, { ...data, description: data.description || undefined })
   })
 }
 
 export async function updateLink(id: string, input: unknown): Promise<ActionResult<Link>> {
-  return run((user) => {
+  return run(async (user) => {
     const data = linkSchema.parse(input)
-    const existing = db.findByUrl(user.id, data.url, id)
+    const existing = await db.findByUrl(user.id, data.url, id)
     if (existing) throw new Error(`Esse link já está salvo como "${existing.title}"`)
-    const updated = db.updateLink(user.id, id, { ...data, description: data.description || undefined })
+    const updated = await db.updateLink(user.id, id, { ...data, description: data.description || undefined })
     if (!updated) throw new Error("Link não encontrado")
     return updated
   })
 }
 
 export async function toggleFavorite(id: string, favorite: boolean): Promise<ActionResult<Link>> {
-  return run((user) => {
-    const updated = db.updateLink(user.id, id, { favorite })
+  return run(async (user) => {
+    const updated = await db.updateLink(user.id, id, { favorite })
     if (!updated) throw new Error("Link não encontrado")
     return updated
   })
 }
 
 export async function deleteLink(id: string): Promise<ActionResult<Link>> {
-  return run((user) => {
-    const removed = db.deleteLink(user.id, id)
+  return run(async (user) => {
+    const removed = await db.deleteLink(user.id, id)
     if (!removed) throw new Error("Link não encontrado")
     return removed
   })
@@ -73,14 +73,14 @@ export async function checkDuplicate(url: string, ignoreId?: string): Promise<Ac
 }
 
 export async function importLinks(items: unknown): Promise<ActionResult<{ imported: number; skipped: number }>> {
-  return run((user) => {
+  return run(async (user) => {
     const list = Array.isArray(items) ? items : (items as { links?: unknown })?.links
     if (!Array.isArray(list)) throw new Error("Arquivo inválido: esperado uma lista de links")
     const valid = list.filter(
       (item): item is Record<string, unknown> =>
         typeof item === "object" && item !== null && linkSchema.shape.url.safeParse((item as { url?: unknown }).url).success,
     )
-    const result = db.importLinks(user.id, valid)
+    const result = await db.importLinks(user.id, valid)
     return { imported: result.imported, skipped: result.skipped + (list.length - valid.length) }
   })
 }

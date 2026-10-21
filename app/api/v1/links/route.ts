@@ -14,7 +14,7 @@ export async function GET(request: Request) {
   const user = await getRequestUser(request)
   if (!user) return unauthorized()
 
-  const links = db.listLinks(user.id)
+  const links = await db.listLinks(user.id)
   const tags = Array.from(new Set(links.flatMap((l) => l.tags))).sort()
   return json({ links, categories: getCategories(links), tags, user: { name: user.name, email: user.email } })
 }
@@ -40,10 +40,10 @@ export async function POST(request: Request) {
   const parsed = linkSchema.safeParse(body)
   if (!parsed.success) return json({ error: parsed.error.errors[0]?.message ?? "Dados inválidos" }, 400)
 
-  const existing = db.findByUrl(user.id, parsed.data.url)
+  const existing = await db.findByUrl(user.id, parsed.data.url)
   if (existing) return json({ error: `Já salvo como "${existing.title}"`, link: existing }, 409)
 
-  const link = db.createLink(user.id, { ...parsed.data, description: parsed.data.description || undefined })
+  const link = await db.createLink(user.id, { ...parsed.data, description: parsed.data.description || undefined })
   return json({ link }, 201)
 }
 

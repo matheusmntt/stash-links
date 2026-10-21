@@ -11,7 +11,7 @@ export async function GET() {
   }
 
   const date = new Date().toISOString().slice(0, 10)
-  const body = JSON.stringify({ version: 1, exportedAt: new Date().toISOString(), links: listLinks(user.id) }, null, 2)
+  const body = JSON.stringify({ version: 1, exportedAt: new Date().toISOString(), links: await listLinks(user.id) }, null, 2)
 
   return new NextResponse(body, {
     headers: {

@@ -13,19 +13,19 @@ export async function POST(request: Request) {
   const password = typeof body?.password === "string" ? body.password : ""
   const label = typeof body?.label === "string" ? body.label.slice(0, 80) : "Extensão do navegador"
 
-  const user = findUserByEmail(email)
+  const user = await findUserByEmail(email)
   if (!(await verifyPassword(password, user?.passwordHash)) || !user) {
     await failureDelay()
     return json({ error: "E-mail ou senha incorretos" }, 401)
   }
 
-  const { token, expiresAt } = createSession(user.id, "api", API_TOKEN_DURATION_MS, label)
+  const { token, expiresAt } = await createSession(user.id, "api", API_TOKEN_DURATION_MS, label)
   return json({ token, expiresAt, user: { name: user.name, email: user.email } })
 }
 
 /** Revoga o token usado na requisição (botão "Desconectar" da extensão). */
 export async function DELETE(request: Request) {
   const header = request.headers.get("authorization")
-  if (header?.startsWith("Bearer ")) deleteSessionByToken(header.slice(7).trim())
+  if (header?.startsWith("Bearer ")) await deleteSessionByToken(header.slice(7).trim())
   return json({ ok: true })
 }
