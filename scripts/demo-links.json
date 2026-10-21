@@ -1,0 +1,181 @@
+[
+  {
+    "url": "https://react.dev/reference/react",
+    "title": "React Reference",
+    "description": "Referência completa de hooks, componentes e APIs do React.",
+    "category": "Documentação",
+    "tags": [
+      "react",
+      "frontend"
+    ],
+    "favorite": true,
+    "visits": 42,
+    "createdAt": "2026-10-20T14:12:00.000Z"
+  },
+  {
+    "url": "https://nextjs.org/docs/app",
+    "title": "Next.js App Router",
+    "description": "Server Components, rotas, layouts, cache e Server Actions.",
+    "category": "Documentação",
+    "tags": [
+      "nextjs",
+      "react"
+    ],
+    "visits": 27,
+    "createdAt": "2026-10-19T10:03:00.000Z"
+  },
+  {
+    "url": "https://ui.shadcn.com/docs/components",
+    "title": "shadcn/ui — Components",
+    "description": "Componentes acessíveis e customizáveis, copiados direto para o projeto.",
+    "category": "Ferramentas",
+    "tags": [
+      "ui",
+      "react",
+      "tailwind"
+    ],
+    "favorite": true,
+    "visits": 31,
+    "createdAt": "2026-10-17T18:40:00.000Z"
+  },
+  {
+    "url": "https://overreacted.io/a-complete-guide-to-useeffect/",
+    "title": "A Complete Guide to useEffect",
+    "description": "Dan Abramov explica o modelo mental por trás do useEffect.",
+    "category": "Artigos",
+    "tags": [
+      "react",
+      "hooks"
+    ],
+    "favorite": true,
+    "visits": 9,
+    "createdAt": "2026-10-15T09:25:00.000Z"
+  },
+  {
+    "url": "https://www.joshwcomeau.com/css/interactive-guide-to-flexbox/",
+    "title": "An Interactive Guide to Flexbox",
+    "description": "Guia visual e interativo para finalmente entender o Flexbox.",
+    "category": "Artigos",
+    "tags": [
+      "css",
+      "layout"
+    ],
+    "visits": 6,
+    "createdAt": "2026-10-12T21:10:00.000Z"
+  },
+  {
+    "url": "https://developer.mozilla.org/pt-BR/docs/Web/CSS/CSS_grid_layout",
+    "title": "CSS Grid Layout — MDN",
+    "description": "Tudo sobre grid: linhas, áreas, alinhamento e exemplos.",
+    "category": "Documentação",
+    "tags": [
+      "css",
+      "layout"
+    ],
+    "visits": 14,
+    "createdAt": "2026-10-08T13:00:00.000Z"
+  },
+  {
+    "url": "https://www.typescriptlang.org/docs/handbook/2/narrowing.html",
+    "title": "TypeScript Handbook — Narrowing",
+    "description": "Type guards, discriminated unions e controle de fluxo.",
+    "category": "Documentação",
+    "tags": [
+      "typescript"
+    ],
+    "visits": 11,
+    "createdAt": "2026-10-02T16:45:00.000Z"
+  },
+  {
+    "url": "https://docs.turso.tech/sdk/ts/quickstart",
+    "title": "Turso — TypeScript Quickstart",
+    "description": "Conectar no Turso com @libsql/client, batches e transações.",
+    "category": "Documentação",
+    "tags": [
+      "database",
+      "sqlite"
+    ],
+    "visits": 5,
+    "createdAt": "2026-09-28T11:30:00.000Z"
+  },
+  {
+    "url": "https://regex101.com",
+    "title": "regex101",
+    "description": "Testar e depurar expressões regulares com explicação de cada parte.",
+    "category": "Ferramentas",
+    "tags": [
+      "regex",
+      "utilitarios"
+    ],
+    "visits": 18,
+    "createdAt": "2026-09-20T08:15:00.000Z"
+  },
+  {
+    "url": "https://excalidraw.com",
+    "title": "Excalidraw",
+    "description": "Quadro branco para diagramas de arquitetura com cara de rascunho.",
+    "category": "Ferramentas",
+    "tags": [
+      "design",
+      "diagramas"
+    ],
+    "visits": 7,
+    "createdAt": "2026-09-11T19:20:00.000Z"
+  },
+  {
+    "url": "https://github.com/vercel/next.js",
+    "title": "vercel/next.js",
+    "description": "Código-fonte e exemplos oficiais do Next.js.",
+    "category": "Repositórios",
+    "tags": [
+      "nextjs",
+      "open-source"
+    ],
+    "visits": 3,
+    "createdAt": "2026-08-30T15:00:00.000Z"
+  },
+  {
+    "url": "https://www.patterns.dev",
+    "title": "Patterns.dev",
+    "description": "Padrões de design, renderização e performance para apps web modernos.",
+    "category": "Estudo",
+    "tags": [
+      "arquitetura",
+      "frontend"
+    ],
+    "createdAt": "2026-08-22T10:10:00.000Z"
+  },
+  {
+    "url": "https://www.youtube.com/@Fireship",
+    "title": "Fireship — 100 Seconds of Code",
+    "description": "Tecnologias explicadas em vídeos curtos e diretos.",
+    "category": "Vídeos",
+    "tags": [
+      "videos"
+    ],
+    "visits": 4,
+    "createdAt": "2026-08-14T20:30:00.000Z"
+  },
+  {
+    "url": "https://www.refactoringui.com",
+    "title": "Refactoring UI",
+    "description": "Dicas práticas de design de interface para desenvolvedores.",
+    "category": "Inspiração",
+    "tags": [
+      "design",
+      "ui"
+    ],
+    "createdAt": "2026-07-30T12:00:00.000Z"
+  },
+  {
+    "url": "http://10.20.0.15:8080/wiki/onboarding",
+    "title": "Wiki interna — Onboarding",
+    "description": "Acessos, ambientes e padrões do time.",
+    "category": "Trabalho",
+    "tags": [
+      "time"
+    ],
+    "visits": 12,
+    "createdAt": "2026-07-18T09:00:00.000Z"
+  }
+]

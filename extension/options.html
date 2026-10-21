@@ -1,0 +1,198 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <title>Stash · Configurações</title>
+    <link rel="stylesheet" href="styles.css" />
+    <style>
+      body {
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+        padding: 64px 16px;
+      }
+      .wrap {
+        width: 100%;
+        max-width: 440px;
+      }
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 24px;
+      }
+      .brand img {
+        border-radius: 12px;
+      }
+      .brand h1 {
+        margin: 0;
+        font-size: 22px;
+        letter-spacing: -0.02em;
+      }
+      .brand p {
+        margin: 2px 0 0;
+        font-size: 13px;
+      }
+      .card {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+        padding: 20px;
+        border: 1px solid var(--border);
+        border-radius: 14px;
+        background: var(--card);
+      }
+      .card + .card {
+        margin-top: 16px;
+      }
+      .card h2 {
+        margin: 0;
+        font-size: 15px;
+      }
+      .status {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-size: 13px;
+      }
+      .dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: var(--primary);
+        box-shadow: 0 0 0 4px color-mix(in oklch, var(--primary) 20%, transparent);
+      }
+      .row {
+        display: flex;
+        gap: 8px;
+        justify-content: flex-end;
+      }
+      .help {
+        margin: 6px 0 0;
+        font-size: 12px;
+      }
+      select.input {
+        appearance: auto;
+      }
+      a {
+        color: var(--primary);
+      }
+      .stack {
+        display: flex;
+        flex-direction: column;
+        gap: 14px;
+      }
+      .full {
+        width: 100%;
+      }
+      .waiting {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 13px;
+        color: var(--muted-foreground);
+      }
+      details {
+        border-top: 1px solid var(--border);
+        padding-top: 14px;
+      }
+      summary {
+        cursor: pointer;
+        font-size: 13px;
+        color: var(--muted-foreground);
+      }
+      summary:hover {
+        color: var(--foreground);
+      }
+      .shortcut {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        font-size: 13px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <div class="brand">
+        <img src="icons/icon-48.png" alt="" width="44" height="44" />
+        <div>
+          <h1>Stash</h1>
+          <p class="muted">Configurações da extensão</p>
+        </div>
+      </div>
+
+      <section class="card" id="connect-card" hidden>
+        <div>
+          <h2>Conectar à sua conta</h2>
+          <p class="help muted" style="margin-top: 4px">
+            Você vai entrar no Stash numa nova aba e autorizar a extensão. Nenhuma senha fica salva aqui.
+          </p>
+        </div>
+        <form id="connect-form" class="stack">
+          <p class="help muted" id="server-preset" hidden style="margin: 0">
+            Seu Stash: <strong id="preset-url"></strong> ·
+            <a href="#" id="change-server">usar outro endereço</a>
+          </p>
+          <div id="server-field">
+            <label class="label" for="server">Endereço do Stash</label>
+            <input class="input" id="server" type="url" placeholder="http://localhost:3000" required />
+            <p class="help muted">O mesmo endereço onde você abre o Stash no navegador.</p>
+          </div>
+          <p class="error-text" id="connect-error" role="alert" hidden></p>
+          <div class="waiting" id="waiting" hidden>
+            <div class="spinner" style="width: 14px; height: 14px"></div>
+            Aguardando a autorização na aba que abriu...
+          </div>
+          <button class="btn full" id="connect-btn" type="submit">Conectar com o Stash</button>
+        </form>
+
+        <details id="password-login">
+          <summary>Prefere entrar com e-mail e senha?</summary>
+          <form id="password-form" class="stack" style="margin-top: 14px">
+            <div>
+              <label class="label" for="email">E-mail</label>
+              <input class="input" id="email" type="email" autocomplete="email" required />
+            </div>
+            <div>
+              <label class="label" for="password">Senha</label>
+              <input class="input" id="password" type="password" autocomplete="current-password" required />
+            </div>
+            <p class="error-text" id="password-error" role="alert" hidden></p>
+            <button class="btn outline full" id="password-btn" type="submit">Entrar</button>
+          </form>
+        </details>
+      </section>
+
+      <div class="card" id="connected" hidden>
+        <h2>Conexão</h2>
+        <div class="status">
+          <span class="dot"></span>
+          <span>
+            <strong id="user-label"></strong> em <strong id="server-label"></strong>
+          </span>
+        </div>
+        <div class="row">
+          <button class="btn ghost" id="disconnect" type="button">Desconectar</button>
+          <button class="btn outline" id="open-app" type="button">Abrir o Stash</button>
+        </div>
+      </div>
+
+      <div class="card" id="prefs" hidden>
+        <h2>Preferências</h2>
+        <div>
+          <label class="label" for="default-category">Categoria do menu de contexto</label>
+          <select class="input" id="default-category"></select>
+          <p class="help muted">
+            Usada ao salvar pelo clique direito ("Salvar link no Stash"), que salva sem abrir o formulário.
+          </p>
+        </div>
+        <div class="shortcut">
+          <span>Atalho para abrir a extensão</span>
+          <span><kbd id="shortcut">Alt+Shift+S</kbd> · <a href="#" id="edit-shortcut">alterar</a></span>
+        </div>
+      </div>
+    </div>
+    <script type="module" src="options.js"></script>
+  </body>
+</html>
