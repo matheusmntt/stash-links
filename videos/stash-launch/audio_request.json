@@ -1,0 +1,11 @@
+{
+  "provider": "auto",
+  "speed": "1.0",
+  "lines": [],
+  "bgm": {
+    "mode": "retrieve",
+    "query": "confident minimal electronic keynote launch, clean pulse, modern tech, uplifting, ~120 BPM",
+    "blob": "Tudo o que vale guardar — docs, ferramentas, posts — num só lugar, a um clique.",
+    "arc": "Hook → Product intro → Organize → Encontre → Salve → One More Thing → Brand outro"
+  }
+}
